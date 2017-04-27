@@ -1,0 +1,44 @@
+ID 	Territory	x	y
+
+1 East Africa - 540, 426
+2 Egypt - 503, 359
+3 Congo - 500, 488
+4 Madagascar - 593, 567
+5 South Africa - 495, 565
+6 North Africa - 448, 408
+7 Afghanistan - 640, 252
+8 India - 697, 351
+9 Irkutsk - 801, 189
+10 Kamchatka - 938, 126
+11 Middle East - 579, 356
+12 Mongolia - 825, 238
+13 Siam - 770, 362
+14 China - 751, 289
+15 Japan - 911, 267
+16 Siberia - 742, 151
+17 Ural - 674, 168
+18 Yakutsk - 834, 126
+19 Eastern Austrailia - 851, 527
+20 New Guniea - 911, 455
+21 Western Austrailia - 790, 555
+22 Indonesia - 825, 421
+23 Great Britain - 420, 200
+24 Iceland - 422, 148
+25 Northern Europe - 479, 220
+26 Scandinavia - 516, 109
+27 Southern Europe - 507, 266
+28 Ukraine - 592, 181
+29 Western Europe - 426, 285
+30 Alaska - 65, 122
+31 Alberta - 175, 177
+32 Central America - 169, 300
+33 Eastern United States - 246, 257
+34 Greenland - 403, 85
+35 Northwest Territory - 167, 128
+36 Ontario - 228, 187
+37 Western United States - 159, 242
+38 Quebec - 314, 180
+39 Argentina - 237, 549
+40 Brazil - 296, 449
+41 Peru - 233, 476
+42 Venezuela - 222, 384
