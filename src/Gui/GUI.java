@@ -267,9 +267,6 @@ public class GUI extends JFrame implements IGameState
 				}
 				mapPanel.repaint();
 				txtrLog.setText(txtrLog.getText() + "\n" +country);
-//				TODO:
-				//cmd = new Command()
-//				ctrl.OnCommand(cmd);
 			}
 		});
 		
@@ -312,9 +309,8 @@ public class GUI extends JFrame implements IGameState
 		        g2d.fill(t.getShape());
 		        g2d.setPaint(BLACK);
 		        g2d.setStroke(new BasicStroke(1, 0, 0, 4));
-
-//		        String text = t.getName();
 				g2d.draw(t.getShape());
+				g2d.drawString(Integer.toString(t.getId()), t.getX(),  t.getY());
 			}
 			
 		}

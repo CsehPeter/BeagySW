@@ -5,6 +5,7 @@ package Gui;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
@@ -88,14 +89,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(533.0, 514.0, 532.0, 514.0, 532.0, 514.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEA252));
         String continent = "africa";
         String name = "East Africa";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC68A31));
-        //g.setStroke(new BasicStroke(1.5f, 0, 0, 4));
-        //g.draw(shape);
+        Point	pos = new Point(540, 426);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_1_1
         shape = new GeneralPath();
@@ -121,13 +118,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(480.0, 328.0, 480.0, 328.0, 484.0, 328.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEA252));
         continent = "africa";
         name = "Egypt";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC68A31));
-        //g.draw(shape);
+        pos = new Point(503, 359);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_1_2
         shape = new GeneralPath();
@@ -162,13 +156,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(480.0, 504.0, 479.0, 503.0, 473.0, 502.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEA252));
         continent = "africa";
         name = "Congo";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC68A31));
-        //g.draw(shape);
+        pos = new Point(500, 488);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_1_3
         shape = new GeneralPath();
@@ -185,13 +176,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(598.0, 570.0, 590.0, 585.0, 579.0, 589.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEA252));
         continent = "africa";
         name = "Madagascar";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC68A31));
-        //g.draw(shape);
+        pos = new Point(593, 567);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_1_4
         shape = new GeneralPath();
@@ -235,13 +223,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(473.0, 503.0, 473.0, 502.0, 473.0, 502.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEA252));
         continent = "africa";
         name = "South Africa";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC68A31));
-        //g.draw(shape);
+        pos = new Point(495, 565);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_1_5
         shape = new GeneralPath();
@@ -288,13 +273,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(472.0, 473.0, 470.0, 473.0, 468.0, 473.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEA252));
         continent = "africa";
         name = "North Africa";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC68A31));
-        //g.draw(shape);
+        pos = new Point(448, 408);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2
 
@@ -338,13 +320,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(657.0, 306.0, 657.0, 306.0, 651.0, 310.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Afghanistan";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(640, 252);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_1
         shape = new GeneralPath();
@@ -405,13 +384,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(664.0, 363.0, 660.0, 363.0, 656.0, 363.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "India";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(697, 351);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_2
         shape = new GeneralPath();
@@ -435,13 +411,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(805.0, 219.0, 795.0, 220.0, 786.0, 217.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Irkutsk";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(801, 189);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_3
         shape = new GeneralPath();
@@ -545,13 +518,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(963.0, 99.0, 962.0, 99.0, 962.0, 99.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Kamchatka";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(938, 126);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_4
         shape = new GeneralPath();
@@ -615,13 +585,10 @@ public class Map {
         ((GeneralPath) shape).lineTo(563.0, 353.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Middle East";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(579, 356);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_5
         shape = new GeneralPath();
@@ -662,13 +629,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(842.0, 265.0, 840.0, 268.0, 836.0, 271.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Mongolia";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(825, 238);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_6
         shape = new GeneralPath();
@@ -712,13 +676,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(757.0, 371.0, 757.0, 370.0, 757.0, 369.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Siam";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(770, 362);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_7
         shape = new GeneralPath();
@@ -785,13 +746,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(848.0, 338.0, 848.0, 341.0, 841.0, 345.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "China";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(751, 289);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_8
         shape = new GeneralPath();
@@ -850,13 +808,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(900.0, 282.0, 900.0, 281.0, 900.0, 280.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Japan";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(911, 267);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_9
         shape = new GeneralPath();
@@ -954,13 +909,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(731.0, 50.0, 728.0, 51.0, 725.0, 53.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Siberia";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(742, 151);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_10
         shape = new GeneralPath();
@@ -995,13 +947,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(747.0, 258.0, 730.0, 242.0, 720.0, 239.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Ural";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(674, 168);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_2_11
         shape = new GeneralPath();
@@ -1079,13 +1028,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(869.0, 77.0, 865.0, 77.0, 862.0, 77.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xBDDB8C));
         continent = "asia";
         name = "Yakutsk";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9CC35A));
-        //g.draw(shape);
+        pos = new Point(834, 126);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_3
 
@@ -1147,13 +1093,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(976.0, 555.0, 974.0, 556.0, 972.0, 556.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xE78A94));
         continent = "australia";
         name = "Eastern Austrailia";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xD65163));
-        //g.draw(shape);
+        pos = new Point(851, 527);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_3_1
         shape = new GeneralPath();
@@ -1207,13 +1150,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(958.0, 460.0, 956.0, 461.0, 955.0, 461.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xE78A94));
         continent = "australia";
         name = "New Guniea";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xD65163));
-        //g.draw(shape);
+        pos = new Point(911, 455);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_3_2
         shape = new GeneralPath();
@@ -1251,13 +1191,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(829.0, 509.0, 830.0, 510.0, 831.0, 510.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xE78A94));
         continent = "australia";
         name = "Western Austrailia";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xD65163));
-        //g.draw(shape);
+        pos = new Point(790, 555);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_3_3
         shape = new GeneralPath();
@@ -1390,13 +1327,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(883.0, 388.0, 882.0, 388.0, 881.0, 388.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xE78A94));
         continent = "australia";
         name = "Indonesia";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xD65163));
-        //g.draw(shape);
+        pos = new Point(825, 421);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_4
 
@@ -1431,13 +1365,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(428.0, 220.0, 426.0, 224.0, 415.0, 226.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEBADE));
         continent = "europe";
         name = "Great Britain";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9482AD));
-        //g.draw(shape);
+        pos = new Point(420, 200);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_4_1
         shape = new GeneralPath();
@@ -1460,13 +1391,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(449.0, 157.0, 434.0, 155.0, 425.0, 156.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEBADE));
         continent = "europe";
         name = "Iceland";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9482AD));
-        //g.draw(shape);
+        pos = new Point(422, 148);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_4_2
         shape = new GeneralPath();
@@ -1500,13 +1428,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(479.0, 245.0, 477.0, 245.0, 470.0, 242.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEBADE));
         continent = "europe";
         name = "Northern Europe";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9482AD));
-        //g.draw(shape);
+        pos = new Point(479, 220);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_4_3
         shape = new GeneralPath();
@@ -1599,13 +1524,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(561.0, 48.0, 559.0, 48.0, 557.0, 48.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEBADE));
         continent = "europe";
         name = "Scandinavia";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9482AD));
-        //g.draw(shape);
+        pos = new Point(516, 109);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_4_4
         shape = new GeneralPath();
@@ -1664,13 +1586,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(527.0, 289.0, 535.0, 274.0, 527.0, 289.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEBADE));
         continent = "europe";
         name = "Southern Europe";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9482AD));
-        //g.draw(shape);
+        pos = new Point(507, 266);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_4_5
         shape = new GeneralPath();
@@ -1790,13 +1709,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(617.0, 85.0, 616.0, 85.0, 615.0, 86.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEBADE));
         continent = "europe";
         name = "Ukraine";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9482AD));
-        //g.draw(shape);
+        pos = new Point(592, 181);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_4_6
         shape = new GeneralPath();
@@ -1828,13 +1744,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(429.0, 312.0, 428.0, 312.0, 428.0, 312.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xCEBADE));
         continent = "europe";
         name = "Western Europe";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0x9482AD));
-        //g.draw(shape);
+        pos = new Point(426, 285);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5
 
@@ -1910,13 +1823,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(49.0, 169.0, 46.0, 170.0, 44.0, 172.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Alaska";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(65, 122);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5_1
         shape = new GeneralPath();
@@ -1934,13 +1844,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(185.0, 206.0, 160.0, 206.0, 136.0, 205.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Alberta";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(175, 177);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5_2
         shape = new GeneralPath();
@@ -1975,13 +1882,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(219.0, 361.0, 216.0, 361.0, 212.0, 363.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Central America";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(182, 316);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5_3
         shape = new GeneralPath();
@@ -2035,13 +1939,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(199.0, 292.0, 199.0, 292.0, 197.0, 293.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Eastern United States";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(246, 257);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5_4
         shape = new GeneralPath();
@@ -2151,13 +2052,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(379.0, 164.0, 377.0, 168.0, 373.0, 174.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Greenland";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(403, 85);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5_5
         shape = new GeneralPath();
@@ -2458,13 +2356,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(243.0, 52.0, 243.0, 53.0, 241.0, 57.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Northwest Territory";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(167, 128);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5_6
         shape = new GeneralPath();
@@ -2496,13 +2391,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(263.0, 235.0, 264.0, 233.0, 264.0, 231.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Ontario";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(228, 187);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5_7
         shape = new GeneralPath();
@@ -2524,13 +2416,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(153.0, 275.0, 148.0, 275.0, 144.0, 275.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Western United States";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(159, 242);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_5_8
         shape = new GeneralPath();
@@ -2597,13 +2486,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(363.0, 218.0, 360.0, 218.0, 357.0, 219.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xEFCB73));
         continent = "north-america";
         name = "Quebec";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xC99B32));
-        //g.draw(shape);
+        pos = new Point(314, 180);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_6
 
@@ -2694,13 +2580,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(299.0, 629.0, 299.0, 629.0, 295.0, 630.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xE79273));
         continent = "south-america";
         name = "Argentina";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xDE7952));
-        //g.draw(shape);
+        pos = new Point(237, 549);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_6_1
         shape = new GeneralPath();
@@ -2754,13 +2637,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(293.0, 516.0, 293.0, 515.0, 292.0, 514.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xE79273));
         continent = "south-america";
         name = "Brazil";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xDE7952));
-        //g.draw(shape);
+        pos = new Point(296, 449);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_6_2
         shape = new GeneralPath();
@@ -2806,13 +2686,10 @@ public class Map {
         ((GeneralPath) shape).curveTo(230.0, 486.0, 228.0, 487.0, 227.0, 487.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xE79273));
         continent = "south-america";
         name = "Peru";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xDE7952));
-        //g.draw(shape);
+        pos = new Point(233, 476);
+        Territories.add(new Territory(name, continent, shape, pos));
 
         // _0_1_6_3
         shape = new GeneralPath();
@@ -2856,17 +2733,12 @@ public class Map {
         ((GeneralPath) shape).curveTo(220.0, 424.0, 219.0, 423.0, 219.0, 423.0);
         ((GeneralPath) shape).closePath();
 
-        //g.setPaint(new Color(0xE79273));
         continent = "south-america";
         name = "Venezuela";
-        //g.fill(shape); 
-        Territories.add(new Territory(name, continent, shape));
-        //g.setPaint(new Color(0xDE7952));
-        //g.draw(shape);
-        //g.setComposite(AlphaComposite.getInstance(3, 0.3f * origAlpha));
+        pos = new Point(222, 384);
+        Territories.add(new Territory(name, continent, shape, pos));
 
 
-        //g.setTransform(transformations.pop()); // _0
 
     }
 

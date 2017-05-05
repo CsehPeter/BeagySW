@@ -1,5 +1,6 @@
 package Gui;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,16 +11,16 @@ public class Territory {
 	private String 	name;
 	private String 	continent;
 	private Shape	shape;
-	private ArrayList<Integer>	neighbours;
-	//private Player 	owner;
 	private int 	units;
 	private Color 	fillColor;		// -> player.fillColor
+	private Point	displayPos;
 	
 	
-	Territory(String nam, String cont, Shape sh) {
+	Territory(String nam, String cont, Shape sh, Point pos) {
 		id = nextId.incrementAndGet();
 		name = nam;
 		continent = cont;
+		displayPos = pos;
 		
 		setUnits(0);
 		shape = sh;
@@ -49,6 +50,13 @@ public class Territory {
 
 	public Shape getShape() {
 		return shape;
+	}
+	
+	public int getX(){
+		return displayPos.x;
+	}
+	public int getY(){
+		return displayPos.y;
 	}
 
 	public int getUnits() {
