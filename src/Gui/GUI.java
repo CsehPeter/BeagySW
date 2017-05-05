@@ -4,7 +4,7 @@
  */
 package Gui;
 
-import static java.awt.Color.*;
+import static java.awt.Color.BLACK;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -30,6 +30,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
@@ -37,10 +38,8 @@ import Control.GameState;
 import Control.ICommand;
 import Control.IGameState;
 import Control.Logic;
-import Network.NetworkType;
 import Network.SerialClient;
-
-import javax.swing.JTextField;
+import Network.SerialServer;
 
 // OK btn + txtfield + testbtn
 public class GUI extends JFrame implements IGameState
@@ -52,6 +51,20 @@ public class GUI extends JFrame implements IGameState
 	private ICommand ctrl;
 	private JTextField textField;
 	
+	private void StartServer()
+	{
+		ctrl = new Logic(this);
+		SerialServer sr = new SerialServer(ctrl);
+		
+		sr.connect("localhost");
+	}
+	
+	private void StartClient()
+	{
+		ctrl = new SerialClient(this);
+		((SerialClient)ctrl).connect("localhost");
+	}
+	
 	public GUI()
 	{
 
@@ -60,7 +73,7 @@ public class GUI extends JFrame implements IGameState
 		//Default window settigns
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1400, 1000);
-	//	/*TEST*/	setBounds(0, 0, 400, 300);
+		/*TEST*/	setBounds(0, 0, 400, 300);
 		
 		//Menubar
 		JMenuBar menuBar = new JMenuBar();
@@ -77,7 +90,7 @@ public class GUI extends JFrame implements IGameState
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				ctrl = new SerialClient();
+				StartClient();
 			}
 		});
 		
@@ -89,8 +102,7 @@ public class GUI extends JFrame implements IGameState
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				//start server();
-				ctrl = new Logic();
+				StartServer();
 			}
 		});
 		
@@ -145,14 +157,27 @@ public class GUI extends JFrame implements IGameState
 		contentPane.add(textField, gbc_textField);
 		textField.setColumns(3);
 		
+		//TEST BUTTON 1//
 		JButton btnT = new JButton("T1");
+		btnT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		GridBagConstraints gbc_btnT = new GridBagConstraints();
 		gbc_btnT.insets = new Insets(0, 0, 5, 5);
 		gbc_btnT.gridx = 0;
 		gbc_btnT.gridy = 2;
 		contentPane.add(btnT, gbc_btnT);
 		
+		
+		//TEST BUTTON 2//
 		JButton btnT_1 = new JButton("T2");
+		btnT_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		GridBagConstraints gbc_btnT_1 = new GridBagConstraints();
 		gbc_btnT_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnT_1.gridx = 1;

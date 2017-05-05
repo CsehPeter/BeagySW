@@ -8,14 +8,31 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Network.Messages.NetMsg;
+import Control.Command;
+import Control.GameState;
+import Control.ICommand;
+import Control.IGameState;
 
-public class SerialServer extends Network
+public class SerialServer extends Network implements IGameState
 {
 	private ServerSocket serverSocket = null;
 	private Socket clientSocket = null;
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
+	
+	private ICommand _cmdIf;
+	
+	public SerialServer(ICommand cmdIf) throws NullPointerException
+	{
+		if(cmdIf == null) throw new NullPointerException("cmdIf is null");
+	}
+	
+	@Override
+	public void OnGameState(GameState gs) throws NullPointerException
+	{
+		if(gs == null) throw new NullPointerException("gs is null");
+		send(gs);
+	}
 
 	private class ReceiverThread implements Runnable
 	{
@@ -53,12 +70,9 @@ public class SerialServer extends Network
 				while (true)
 				{
 					NetMsg msg = (NetMsg) in.readObject();
-					if(msg != null)
+					if(msg instanceof Command)
 					{
-						synchronized(mailbox)
-						{
-							mailbox.add(msg);
-						}
+						_cmdIf.OnCommand((Command) msg);
 					}
 					
 					//thread.sleep????
@@ -115,14 +129,10 @@ public class SerialServer extends Network
 	{
 		try
 		{
-			if (out != null)
-				out.close();
-			if (in != null)
-				in.close();
-			if (clientSocket != null)
-				clientSocket.close();
-			if (serverSocket != null)
-				serverSocket.close();
+			if (out != null) out.close();
+			if (in != null) in.close();
+			if (clientSocket != null) clientSocket.close();
+			if (serverSocket != null) serverSocket.close();
 		}
 		catch (IOException ex)
 		{
@@ -130,4 +140,6 @@ public class SerialServer extends Network
 					null, ex);
 		}
 	}
+
+	
 }

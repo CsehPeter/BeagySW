@@ -1,9 +1,12 @@
 package Control;
 
-public class Command
+import java.io.Serializable;
+
+import Network.NetMsg;
+
+public class Command extends NetMsg implements Serializable
 {
 	public Clicks Click;
-	public int PlayerId = 0;
 	public int Units = 0;
 	
 	public int FromId = 0;
