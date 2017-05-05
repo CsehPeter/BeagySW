@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,6 +41,7 @@ import Control.GameState;
 import Control.ICommand;
 import Control.IGameState;
 import Control.Logic;
+import Control.Phases;
 import Control.Player;
 import Network.SerialClient;
 
@@ -53,6 +55,8 @@ public class GUI extends JFrame implements IGameState
 	private ICommand ctrl;
 	private JTextField textField;
 	private Player player;
+	// gamestate for testing:
+	private GameState gState= new GameState(Phases.Deploy, new ArrayList<Control.Territory>(), 0);
 	
 	public GUI()
 	{
@@ -104,6 +108,8 @@ public class GUI extends JFrame implements IGameState
 		mntmExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Command cmd = new Command(Clicks.Exit, player.getId());
+				ctrl.OnCommand(cmd);
 				System.exit(0);
 			}
 		});
@@ -183,6 +189,9 @@ public class GUI extends JFrame implements IGameState
 		JButton btnNewButton = new JButton("Next");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				Command cmd = new Command(Clicks.Next, player.getId());
+				ctrl.OnCommand(cmd);
 				txtrLog.setText("");
 			}
 		});
@@ -211,6 +220,7 @@ public class GUI extends JFrame implements IGameState
 			public void mouseClicked(MouseEvent e)
 			{
 				String country = "";
+				Command cmd;
 				for(Territory t : wMap.getTerritories())
 				{
 					Shape sh = t.getShape();
@@ -222,7 +232,8 @@ public class GUI extends JFrame implements IGameState
 				}
 				MapPanel.repaint();
 				txtrLog.setText(txtrLog.getText() + "\n" +country);
-//				ctrl.sendClick(new Point(e.getX(), e.getY()));
+//				cmd = new Command()
+//				ctrl.OnCommand(cmd);
 			}
 		});
 		
@@ -269,9 +280,13 @@ public class GUI extends JFrame implements IGameState
 		}
 	}
 
+	private void UpdateStatus(){
+		//lblStatus = new JLabel("Phase: " + gState.Phase.name() + " | " + "Player: " + gState.PlayerId);
+	}
+	
 	@Override
 	public void OnGameState(GameState gs) {
-		// TODO Auto-generated method stub
-		
+		this.repaint();
+		this.gState = gs;
 	}
 }
