@@ -33,25 +33,29 @@ import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import Control.Control;
+import Control.GameState;
+import Control.ICommand;
+import Control.IGameState;
+import Control.Logic;
 import Network.NetworkType;
+import Network.SerialClient;
+
 import javax.swing.JTextField;
 
 // OK btn + txtfield + testbtn
-public class GUI extends JFrame {
+public class GUI extends JFrame implements IGameState
+{
 	private JPanel contentPane;
 	private MapPanel drawPanel;
 	Map wMap = new Map();
 	private static final long serialVersionUID = 1L;
-	private Control ctrl;
+	private ICommand ctrl;
 	private JTextField textField;
 	
-	
-	public GUI(Control c) {
+	public GUI()
+	{
 
 		super("RISK");
-		
-		ctrl = c;
 		
 		//Default window settigns
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,8 +75,9 @@ public class GUI extends JFrame {
 		mntmClient.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				ctrl.StartNetwork(NetworkType.Client);
+			public void actionPerformed(ActionEvent e)
+			{
+				ctrl = new SerialClient();
 			}
 		});
 		
@@ -82,9 +87,10 @@ public class GUI extends JFrame {
 		mntmServer.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				//check if already started?
-				ctrl.StartNetwork(NetworkType.Server);
+			public void actionPerformed(ActionEvent e)
+			{
+				//start server();
+				ctrl = new Logic();
 			}
 		});
 		
@@ -257,5 +263,11 @@ public class GUI extends JFrame {
 			}
 			
 		}
+	}
+
+	@Override
+	public void OnGameState(GameState gs) {
+		// TODO Auto-generated method stub
+		
 	}
 }

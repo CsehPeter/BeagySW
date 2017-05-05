@@ -2,8 +2,10 @@ package Network;
 
 import java.util.ArrayList;
 
-import Control.Control;
-import Network.Messages.*;
+import Network.Messages.ActionMsg;
+import Network.Messages.NetMsg;
+import Network.Messages.StatusMsg;
+import Network.Messages.StatusMsgType;
 
 public abstract class Network
 {

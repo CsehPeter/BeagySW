@@ -1,13 +1,10 @@
 package Main;
-import Control.*;
-import Gui.*;
+import Gui.GUI;
 
 public class Main
 {
 	public static void main(String[] args)
 	{
-		Control game = new Control();
-		new GUI(game);
-		//game.Play();
+		new GUI();
 	}
 }

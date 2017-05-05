@@ -8,10 +8,11 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
-import Control.Control;
+import Control.Command;
+import Control.ICommand;
 import Network.Messages.NetMsg;
 
-public class SerialClient extends Network
+public class SerialClient extends Network implements ICommand
 {
 	private Socket socket = null;
 	private ObjectOutputStream out = null;
@@ -110,5 +111,11 @@ public class SerialClient extends Network
 		{
 			System.err.println("Error while closing conn.");
 		}
+	}
+
+	@Override
+	public void OnCommand(Command cmd) {
+		// TODO Auto-generated method stub
+		
 	}
 }

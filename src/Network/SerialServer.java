@@ -5,12 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Control.Control;
-import Control.Player;
 import Network.Messages.NetMsg;
 
 public class SerialServer extends Network
