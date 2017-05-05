@@ -7,6 +7,7 @@ import Network.NetMsg;
 
 public class GameState extends NetMsg implements Serializable
 {
+	public Boolean IsChanged = false;
 	public Phases Phase;
 	public ArrayList<Territory> ChangedTerritories;
 	public int PlayerId;

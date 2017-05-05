@@ -85,21 +85,30 @@ public class Logic implements ICommand, Runnable
 	{
 		switch(gs.Phase)
 		{
+		
 		case Attack:
 			gs.Phase = Phases.Transfer;
+			gs.IsChanged = true;
 			break;
 			
 		case Deploy:
 			gs.Phase = Phases.Attack;
+			gs.IsChanged = true;
 			break;
 			
 		case Transfer:
 			//Next Player
 			if( (gs.PlayerId + 1) < _games.size() )
+			{
 				gs.PlayerId++;
+			}
+				
 			else
+			{
 				gs.PlayerId = 0;
+			}
 			gs.Phase = Phases.Deploy;
+			gs.IsChanged = true;
 			break;
 			
 		default: break;
@@ -111,9 +120,15 @@ public class Logic implements ICommand, Runnable
 	{
 		while(true)
 		{
-			for(IGameState game : _games)
+			if(gs.IsChanged == true)
 			{
-					game.OnGameState(new GameState(gs.Phase, gs.ChangedTerritories, gs.PlayerId));
+				System.out.println("Change");
+				gs.IsChanged = false;
+				
+				for(IGameState game : _games)
+				{
+						game.OnGameState(new GameState(gs.Phase, gs.ChangedTerritories, gs.PlayerId));
+				}
 			}
 			
 			try

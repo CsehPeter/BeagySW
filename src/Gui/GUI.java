@@ -54,6 +54,8 @@ public class GUI extends JFrame implements IGameState
 	private JTextField textField;
 	private Player player;
 	private JLabel lblStatus;
+
+	private MapPanel mapPanel = new MapPanel();
 	
 	private void StartServer()
 	{
@@ -82,7 +84,7 @@ public class GUI extends JFrame implements IGameState
 		//Default window settigns
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1400, 1000);
-		/*TEST*/	setBounds(0, 0, 400, 300);
+		// /*TEST*/	setBounds(0, 0, 400, 300);
 		
 		//Menubar
 		JMenuBar menuBar = new JMenuBar();
@@ -236,18 +238,18 @@ public class GUI extends JFrame implements IGameState
 		contentPane.add(btnNewButton, gbc_btnNewButton);
 		
 		//Map
-		JPanel MapPanel = new MapPanel();
-		FlowLayout flowLayout = (FlowLayout) MapPanel.getLayout();
-		MapPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		//JPanel mapPanel = new MapPanel();
+		FlowLayout flowLayout = (FlowLayout) mapPanel.getLayout();
+		mapPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		GridBagConstraints gbc_MapPanel = new GridBagConstraints();
 		gbc_MapPanel.fill = GridBagConstraints.BOTH;
 		gbc_MapPanel.gridheight = 3;
 		gbc_MapPanel.gridx = 2;
 		gbc_MapPanel.gridy = 1;		
-		contentPane.add(MapPanel, gbc_MapPanel);
+		contentPane.add(mapPanel, gbc_MapPanel);
 		
 		//Click on map
-		MapPanel.addMouseListener(new MouseAdapter()
+		mapPanel.addMouseListener(new MouseAdapter()
 		{
 			@Override
 			public void mouseClicked(MouseEvent e)
@@ -263,7 +265,7 @@ public class GUI extends JFrame implements IGameState
 					}				
 									
 				}
-				MapPanel.repaint();
+				mapPanel.repaint();
 				txtrLog.setText(txtrLog.getText() + "\n" +country);
 //				TODO:
 				//cmd = new Command()
@@ -320,7 +322,7 @@ public class GUI extends JFrame implements IGameState
 
 	@Override
 	public void OnGameState(GameState gs) {
-		this.repaint();
+		//this.repaint();
 
 		this.UpdateStatus(lblStatus, "phase: " + gs.Phase.name());
 	}
