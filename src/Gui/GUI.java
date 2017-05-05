@@ -191,7 +191,8 @@ public class GUI extends JFrame implements IGameState
 		JButton btnNewButton = new JButton("Next");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lblStatus.setText("next pressed");
+//				lblStatus.setText("next pressed");
+				UpdateStatus(lblStatus, "nextPressed");
 				
 				Command cmd = new Command(Clicks.Next, player.getId());
 				ctrl.OnCommand(cmd);
@@ -244,6 +245,10 @@ public class GUI extends JFrame implements IGameState
 		setVisible(true);
 		
 	}
+	
+	private void UpdateStatus(JLabel lbl, String str){
+		lbl.setText(str);
+	}
 
 	private class MapPanel extends JPanel {
 
@@ -288,6 +293,6 @@ public class GUI extends JFrame implements IGameState
 	public void OnGameState(GameState gs) {
 		this.repaint();
 		this.gState = gs;
-		this.lblStatus.setText("on game state");
+		this.UpdateStatus(lblStatus, "phase: " + gState.Phase.name());
 	}
 }
