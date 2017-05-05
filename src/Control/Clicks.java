@@ -1,6 +1,8 @@
 package Control;
 
-public enum Clicks
+import java.io.Serializable;
+
+public enum Clicks implements Serializable
 {
 	Territory,
 	Ok,

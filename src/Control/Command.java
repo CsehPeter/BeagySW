@@ -7,10 +7,10 @@ import Network.NetMsg;
 public class Command extends NetMsg implements Serializable
 {
 	public Clicks Click;
-	public int Units = 0;
+	public int Units = -1;
 	
-	public int FromId = 0;
-	public int ToId = 0;
+	public int FromId = -1;
+	public int ToId = -1;
 	
 	public Command(Clicks click, int playerId, int units, int fromId, int toId)
 	{

@@ -52,7 +52,7 @@ public class SerialClient extends Network implements ICommand
 			} 
 			catch (Exception ex)
 			{
-				System.out.println(ex.getMessage());
+				System.out.println(ex.getMessage() + ex.toString());
 				System.err.println("Server disconnected!");
 			}
 			finally
@@ -91,9 +91,11 @@ public class SerialClient extends Network implements ICommand
 	@Override
 	public void send(NetMsg msg) throws NullPointerException
 	{
-		if(msg == null) throw new NullPointerException("Message is null");
-		if (out == null) return;
+		if(msg == null) throw new NullPointerException("msg is null");
+		if (out == null) throw new NullPointerException("out is null");;
+		
 		System.out.println("Sending message: " + msg + " to Server");
+		
 		try
 		{
 			out.writeObject(msg);

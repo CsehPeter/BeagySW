@@ -25,6 +25,7 @@ public class SerialServer extends Network implements IGameState
 	public SerialServer(ICommand cmdIf) throws NullPointerException
 	{
 		if(cmdIf == null) throw new NullPointerException("cmdIf is null");
+		_cmdIf = cmdIf;
 	}
 	
 	@Override

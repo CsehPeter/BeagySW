@@ -33,10 +33,10 @@ public final class SupportTests
 		t2.Units = 20;
 		
 		int round = 0;
-		while(Support.CanAttack(player1, t1, t2, t1.Units - 1))
+		while(Support.CanAttack(player1.getId(), t1, t2, t1.Units - 1))
 		{
 			System.out.println("Round:" + round++ + "   " + t1.Units + " vs " + t2.Units);
-			Support.Attack(player1, t1, t2, t1.Units - 1);
+			Support.Attack(player1.getId(), t1, t2, t1.Units - 1);
 		}
 		System.out.println("Round:" + round++ + "   " + t1.Units + " vs " + t2.Units);
 		if(t1.Units > t2.Units) System.out.println("Attackers won");
@@ -64,7 +64,7 @@ public final class SupportTests
 		for(int i = 1; i < Constants.NUMBER_OF_TERRITORIES; i++)
 		{
 			System.out.print("From 2(" + map.getTerritory(2).Owner.getId() + ")" + " to " + i + "(" + map.getTerritory(i).Owner.getId() + ") ");
-			System.out.println(Support.CanTransfer(player1, map, map.getTerritory(2), map.getTerritory(i)));
+			System.out.println(Support.CanTransfer(player1.getId(), map, map.getTerritory(2), map.getTerritory(i)));
 		}
 	}
 }
