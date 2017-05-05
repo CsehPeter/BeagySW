@@ -4,7 +4,7 @@
  */
 package Gui;
 
-import static java.awt.Color.*;
+import static java.awt.Color.BLACK;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -30,17 +30,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
+import Control.Clicks;
+import Control.Command;
 import Control.GameState;
 import Control.ICommand;
 import Control.IGameState;
 import Control.Logic;
-import Network.NetworkType;
+import Control.Player;
 import Network.SerialClient;
-
-import javax.swing.JTextField;
 
 // OK btn + txtfield + testbtn
 public class GUI extends JFrame implements IGameState
@@ -51,6 +52,7 @@ public class GUI extends JFrame implements IGameState
 	private static final long serialVersionUID = 1L;
 	private ICommand ctrl;
 	private JTextField textField;
+	private Player player;
 	
 	public GUI()
 	{
@@ -77,6 +79,7 @@ public class GUI extends JFrame implements IGameState
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				player = new Player(1, Color.ORANGE);
 				ctrl = new SerialClient();
 			}
 		});
@@ -90,6 +93,7 @@ public class GUI extends JFrame implements IGameState
 			public void actionPerformed(ActionEvent e)
 			{
 				//start server();
+				player = new Player(0, Color.BLUE);
 				ctrl = new Logic();
 			}
 		});
@@ -126,8 +130,8 @@ public class GUI extends JFrame implements IGameState
 		JButton btnNewButton_1 = new JButton("OK");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				cmd = new Command(.);
-//				logic.onCommand(cmd);
+				Command cmd = new Command(Clicks.Ok, player.getId());
+				ctrl.OnCommand(cmd);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -211,7 +215,7 @@ public class GUI extends JFrame implements IGameState
 				{
 					Shape sh = t.getShape();
 					if(sh.contains(e.getPoint())){
-						t.setFillColor(Color.red);
+						t.setFillColor(player.getColor());
 						country =t.getId() + " " + t.getName() + " - " + e.getX() + ", " + e.getY() ;
 					}				
 									
