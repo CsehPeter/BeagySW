@@ -120,6 +120,8 @@ public class GUI extends JFrame {
 		JButton btnNewButton_1 = new JButton("OK");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				cmd = new Command(.);
+//				logic.onCommand(cmd);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
