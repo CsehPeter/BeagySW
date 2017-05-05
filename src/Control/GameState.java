@@ -1,8 +1,11 @@
 package Control;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameState
+import Network.NetMsg;
+
+public class GameState extends NetMsg implements Serializable
 {
 	public Phases Phase;
 	public ArrayList<Territory> ChangedTerritories;

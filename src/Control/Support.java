@@ -7,18 +7,17 @@ public final class Support
 {
 	///\brief Calculates the number of deploy units
 	//TODO: extra units for the owned continents
-	public static int DeployUnits(Player player, Map map) throws NullPointerException
+	public static int DeployUnits(int playerId, Map map) throws NullPointerException
 	{
-		if(player == null) throw new NullPointerException("Player is null");
 		if(map == null) throw new NullPointerException("Map is null");
 		
 		int units = 0;
 		for(Territory territory : map._territories)
 		{
-			if(territory.Owner.getId() == player.getId()) units++;
+			if(territory.Owner.getId() == playerId) units++;
 		}
 		
-		return units / Constants.TERRITORY_PER_UNIT;
+		return units / Constants.TERRITORY_PER_UNIT + Constants.DEFAULT_DEPLOY_UNITS;
 	}
 	
 	///\brief Returns true if the two territories are near each other
@@ -38,20 +37,19 @@ public final class Support
 	}
 			
 	///\brief Returns true if the attack can be executed
-	public static Boolean CanAttack(Player player, Territory a, Territory b, int attackUnits) throws NullPointerException
+	public static Boolean CanAttack(int playerId, Territory a, Territory b, int attackUnits) throws NullPointerException
 	{
-		if(player == null) throw new NullPointerException("Player is null");
 		if(a == null) throw new NullPointerException("Territory 'a' is null");
 		if(b == null) throw new NullPointerException("Territory 'b' is null");
 		
 		//Check if the base territory is owned by the attacker, and the units on the territory is greater than 1, and there is at least 1 defender unit
-		if(a.Owner.getId() == player.getId() && a.Units > 1 && b.Units > 0)
+		if(a.Owner.getId() == playerId && a.Units > 1 && b.Units > 0)
 		{
 			//Check if the attacking units is greater than 1 and there are enough units on the territory
 			if(attackUnits > 0 && attackUnits < a.Units)
 			{
 				//Check if the target territory is owned by some other player
-				if(b.Owner.getId() != player.getId())
+				if(b.Owner.getId() != playerId)
 				{
 					//Check if the two territory is near each other
 					if(AreNeighbours(a, b))
@@ -65,9 +63,9 @@ public final class Support
 	}
 		
 	///\brief Returns true if the attacker wins the battle, otherwise false
-	public static Boolean Attack(Player player, Territory a, Territory b, int attackUnits)
+	public static Boolean Attack(int playerId, Territory a, Territory b, int attackUnits)
 	{
-		CanAttack(player, a, b, attackUnits);
+		CanAttack(playerId, a, b, attackUnits);
 		
 		//Calculate the number of friendly and enemy dice
 		int friendlyDice = 0;
@@ -114,42 +112,41 @@ public final class Support
 	}
 		
 	///\brief Returns true if the given territory is owned by the player, otherwise false
-	public static Boolean IsFriendlyTerritory(Player player, Territory t)
+	public static Boolean IsFriendlyTerritory(int playerId, Territory t)
 	{
-		if(player == null) throw new NullPointerException("Player is null");
 		if(t == null) throw new NullPointerException("Territory is null");
 		if(t.Owner == null) throw new NullPointerException("Territory's owner is null");
 		
-		if(t.Owner.getId() == player.getId()) return true;
+		if(t.Owner.getId() == playerId) return true;
 		return false;
 	}
 	
 	///\brief 	Return true if there is a territory connection line between the two friendly territories
 	///\details	Backtrack algorithm to search a line
 	///TODO Check for the remaining 1 unit on the base territory
-	public static Boolean CanTransfer(Player player, Map map, Territory current, Territory goal) throws NullPointerException
+	public static Boolean CanTransfer(int playerId, Map map, Territory current, Territory goal) throws NullPointerException
 	{
 		if(map == null) throw new NullPointerException("Map is null");
 		
 		//Current or goal territory is not owned by the player
-		if(!IsFriendlyTerritory(player, current) || !IsFriendlyTerritory(player, goal)) return false;
+		if(!IsFriendlyTerritory(playerId, current) || !IsFriendlyTerritory(playerId, goal)) return false;
 		
 		ArrayList<Integer> used = new ArrayList<Integer>();
 		used.add(current.getId());
-		return CanTransfer(player, map, current, goal, used);
+		return CanTransfer(playerId, map, current, goal, used);
 	}
-	private static Boolean CanTransfer(Player player, Map map, Territory current, Territory goal, ArrayList<Integer> used)
+	private static Boolean CanTransfer(int playerId, Map map, Territory current, Territory goal, ArrayList<Integer> used)
 	{
 		//reached our goal
 		if(current.getId() == goal.getId()) return true;
 		
 		for(int aId : current.getNeighbours())
 		{
-			if(!used.contains(aId) && map.getTerritory(aId).Owner.getId() == player.getId())
+			if(!used.contains(aId) && map.getTerritory(aId).Owner.getId() == playerId)
 			{
 				used.add(aId);
 					//System.out.print(current.getId() + " ");
-				if(CanTransfer(player, map, map.getTerritory(aId), goal, used)) return true;
+				if(CanTransfer(playerId, map, map.getTerritory(aId), goal, used)) return true;
 			}
 		}
 		used.remove(used.size() - 1);

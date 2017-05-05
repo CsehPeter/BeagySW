@@ -1,4 +1,4 @@
-package Network.Messages;
+package Network;
 
 import java.io.Serializable;
 
@@ -6,9 +6,5 @@ import Control.*;
 
 public abstract class NetMsg implements Serializable
 {
-	protected Player _player;
-	public Player getPlayer()
-	{
-		return _player;
-	}
+	public int PlayerId = 0;
 }

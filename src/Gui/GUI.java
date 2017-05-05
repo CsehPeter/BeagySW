@@ -44,21 +44,39 @@ import Control.Logic;
 import Control.Phases;
 import Control.Player;
 import Network.SerialClient;
+import Network.SerialServer;
 
 // OK btn + txtfield + testbtn
 public class GUI extends JFrame implements IGameState
 {
 	private JPanel contentPane;
-	private MapPanel drawPanel;
 	Map wMap = new Map();
 	private static final long serialVersionUID = 1L;
 	private ICommand ctrl;
 	private JTextField textField;
 	private Player player;
+
+	private void StartServer()
+	{
+		ctrl = new Logic(this);
+		SerialServer sr = new SerialServer(ctrl);
+		
+		sr.connect("localhost");
+		
+		player = new Player(0, Color.blue);
+	}
+	
+	private void StartClient()
+	{
+		ctrl = new SerialClient(this);
+		((SerialClient)ctrl).connect("localhost");
+		
+		player = new Player(1, Color.red);
+	}
+
 	// gamestate for testing:
 	private GameState gState= new GameState(Phases.Deploy, new ArrayList<Control.Territory>(), 0);
 	private JLabel lblStatus;
-	
 	
 	public GUI()
 	{
@@ -68,7 +86,7 @@ public class GUI extends JFrame implements IGameState
 		//Default window settigns
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1400, 1000);
-	//	/*TEST*/	setBounds(0, 0, 400, 300);
+		/*TEST*/	setBounds(0, 0, 400, 300);
 		
 		//Menubar
 		JMenuBar menuBar = new JMenuBar();
@@ -85,8 +103,7 @@ public class GUI extends JFrame implements IGameState
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				player = new Player(1, Color.ORANGE);
-				ctrl = new SerialClient();
+				StartClient();
 			}
 		});
 		
@@ -98,9 +115,7 @@ public class GUI extends JFrame implements IGameState
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				//start server();
-				player = new Player(0, Color.BLUE);
-				ctrl = new Logic();
+				StartServer();
 			}
 		});
 		
@@ -157,14 +172,32 @@ public class GUI extends JFrame implements IGameState
 		contentPane.add(textField, gbc_textField);
 		textField.setColumns(3);
 		
+		//TEST BUTTON 1//
 		JButton btnT = new JButton("T1");
+
+		btnT.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		GridBagConstraints gbc_btnT = new GridBagConstraints();
 		gbc_btnT.insets = new Insets(0, 0, 5, 5);
 		gbc_btnT.gridx = 0;
 		gbc_btnT.gridy = 2;
 		contentPane.add(btnT, gbc_btnT);
 		
+		
+		//TEST BUTTON 2//
 		JButton btnT_1 = new JButton("T2");
+		btnT_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		GridBagConstraints gbc_btnT_1 = new GridBagConstraints();
 		gbc_btnT_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnT_1.gridx = 1;
@@ -292,6 +325,7 @@ public class GUI extends JFrame implements IGameState
 	@Override
 	public void OnGameState(GameState gs) {
 		this.repaint();
+
 		this.gState = gs;
 		this.UpdateStatus(lblStatus, "phase: " + gState.Phase.name());
 	}

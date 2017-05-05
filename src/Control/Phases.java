@@ -1,6 +1,8 @@
 package Control;
 
-public enum Phases
+import java.io.Serializable;
+
+public enum Phases implements Serializable
 {
 	Deploy,
 	Attack,

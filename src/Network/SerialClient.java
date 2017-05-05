@@ -9,14 +9,29 @@ import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 import Control.Command;
+import Control.GameState;
 import Control.ICommand;
-import Network.Messages.NetMsg;
+import Control.IGameState;
 
 public class SerialClient extends Network implements ICommand
 {
 	private Socket socket = null;
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
+	
+	private IGameState _game;
+	
+	public SerialClient(IGameState game)
+	{
+		if(game == null) throw new NullPointerException("game is null");
+		_game = game;
+	}
+	
+	@Override
+	public void OnCommand(Command cmd)
+	{
+		send(cmd);
+	}
 
 	private class ReceiverThread implements Runnable {
 
@@ -28,21 +43,17 @@ public class SerialClient extends Network implements ICommand
 				while (true)
 				{
 					NetMsg msg = (NetMsg) in.readObject();
-					if(msg != null)
+					if(msg instanceof GameState)
 					{
-						synchronized(mailbox)
-						{
-							mailbox.add(msg);
-						}
+						System.out.println("In Client thread");
+						_game.OnGameState((GameState)msg);
 					}
-					
-					//thread.sleep????
 					Thread.sleep(5);
 				}
 			} 
 			catch (Exception ex)
 			{
-				System.out.println(ex.getMessage());
+				System.out.println(ex.getMessage() + ex.toString());
 				System.err.println("Server disconnected!");
 			}
 			finally
@@ -81,9 +92,11 @@ public class SerialClient extends Network implements ICommand
 	@Override
 	public void send(NetMsg msg) throws NullPointerException
 	{
-		if(msg == null) throw new NullPointerException("Message is null");
-		if (out == null) return;
+		if(msg == null) throw new NullPointerException("msg is null");
+		if (out == null) throw new NullPointerException("out is null");;
+		
 		System.out.println("Sending message: " + msg + " to Server");
+		
 		try
 		{
 			out.writeObject(msg);
@@ -100,22 +113,13 @@ public class SerialClient extends Network implements ICommand
 	{
 		try
 		{
-			if (out != null)
-				out.close();
-			if (in != null)
-				in.close();
-			if (socket != null)
-				socket.close();
+			if (out != null) out.close();
+			if (in != null) in.close();
+			if (socket != null) socket.close();
 		}
 		catch (IOException ex)
 		{
 			System.err.println("Error while closing conn.");
 		}
-	}
-
-	@Override
-	public void OnCommand(Command cmd) {
-		// TODO Auto-generated method stub
-		
 	}
 }
