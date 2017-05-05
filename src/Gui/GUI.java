@@ -55,7 +55,10 @@ public class GUI extends JFrame implements IGameState
 	private ICommand ctrl;
 	private JTextField textField;
 	private Player player;
-
+	// gamestate for testing:
+	private GameState gState= new GameState(Phases.Deploy, new ArrayList<Control.Territory>(), 0);
+	private JLabel lblStatus;
+	
 	private void StartServer()
 	{
 		ctrl = new Logic(this);
@@ -73,10 +76,6 @@ public class GUI extends JFrame implements IGameState
 		
 		player = new Player(1, Color.red);
 	}
-
-	// gamestate for testing:
-	private GameState gState= new GameState(Phases.Deploy, new ArrayList<Control.Territory>(), 0);
-	private JLabel lblStatus;
 	
 	public GUI()
 	{
@@ -327,6 +326,6 @@ public class GUI extends JFrame implements IGameState
 		this.repaint();
 
 		this.gState = gs;
-		this.UpdateStatus(lblStatus, "phase: " + gState.Phase.name());
+		this.UpdateStatus(lblStatus, "phase: " + gs.Phase.name());
 	}
 }
