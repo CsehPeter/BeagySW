@@ -189,8 +189,9 @@ public class GUI extends JFrame {
 		MapPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		GridBagConstraints gbc_MapPanel = new GridBagConstraints();
 		gbc_MapPanel.fill = GridBagConstraints.BOTH;
+		gbc_MapPanel.gridheight = 3;
 		gbc_MapPanel.gridx = 2;
-		gbc_MapPanel.gridy = 3;		
+		gbc_MapPanel.gridy = 1;		
 		contentPane.add(MapPanel, gbc_MapPanel);
 		
 		//Click on map
