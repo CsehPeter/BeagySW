@@ -55,7 +55,7 @@ public class GUI extends JFrame implements IGameState
 	private ICommand ctrl;
 	private JTextField textField;
 	private Player player;
-	
+
 	private void StartServer()
 	{
 		ctrl = new Logic(this);
@@ -73,6 +73,10 @@ public class GUI extends JFrame implements IGameState
 		
 		player = new Player(1, Color.red);
 	}
+
+	// gamestate for testing:
+	private GameState gState= new GameState(Phases.Deploy, new ArrayList<Control.Territory>(), 0);
+	private JLabel lblStatus;
 	
 	public GUI()
 	{
@@ -139,7 +143,7 @@ public class GUI extends JFrame implements IGameState
 		contentPane.setLayout(gbl_contentPane);
 		
 		//Status bar
-		JLabel lblStatus = new JLabel("Status");
+		lblStatus = new JLabel("Status");
 		GridBagConstraints gbc_lblStatus = new GridBagConstraints();
 		gbc_lblStatus.insets = new Insets(0, 0, 5, 0);
 		gbc_lblStatus.gridx = 2;
@@ -220,6 +224,7 @@ public class GUI extends JFrame implements IGameState
 		JButton btnNewButton = new JButton("Next");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblStatus.setText("next pressed");
 				
 				Command cmd = new Command(Clicks.Next, player.getId());
 				ctrl.OnCommand(cmd);
@@ -263,7 +268,8 @@ public class GUI extends JFrame implements IGameState
 				}
 				MapPanel.repaint();
 				txtrLog.setText(txtrLog.getText() + "\n" +country);
-//				cmd = new Command()
+//				TODO:
+				//cmd = new Command()
 //				ctrl.OnCommand(cmd);
 			}
 		});
@@ -311,12 +317,11 @@ public class GUI extends JFrame implements IGameState
 		}
 	}
 
-	private void UpdateStatus(){
-		//lblStatus = new JLabel("Phase: " + gState.Phase.name() + " | " + "Player: " + gState.PlayerId);
-	}
-	
 	@Override
 	public void OnGameState(GameState gs) {
 		this.repaint();
+
+		this.gState = gs;
+		this.lblStatus.setText("on game state");
 	}
 }

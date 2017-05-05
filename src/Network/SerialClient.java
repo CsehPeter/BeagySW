@@ -45,6 +45,7 @@ public class SerialClient extends Network implements ICommand
 					NetMsg msg = (NetMsg) in.readObject();
 					if(msg instanceof GameState)
 					{
+						System.out.println("In Client thread");
 						_game.OnGameState((GameState)msg);
 					}
 					Thread.sleep(5);
