@@ -113,7 +113,7 @@ public class SerialServer extends Network implements IGameState
 	public void send(NetMsg msg)
 	{
 		if (out == null) return;
-		System.out.println("Sending message: " + msg + " to Client");
+		//System.out.println("Sending message: " + msg + " to Client");
 		try
 		{
 			out.writeObject(msg);

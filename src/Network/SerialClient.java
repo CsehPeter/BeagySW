@@ -45,7 +45,7 @@ public class SerialClient extends Network implements ICommand
 					NetMsg msg = (NetMsg) in.readObject();
 					if(msg instanceof GameState)
 					{
-						System.out.println("In Client thread");
+						//System.out.println(((GameState)msg).PlayerId + "  " + ((GameState)msg).Phase);
 						_game.OnGameState((GameState)msg);
 					}
 					Thread.sleep(5);
@@ -95,7 +95,7 @@ public class SerialClient extends Network implements ICommand
 		if(msg == null) throw new NullPointerException("msg is null");
 		if (out == null) throw new NullPointerException("out is null");;
 		
-		System.out.println("Sending message: " + msg + " to Server");
+		//System.out.println("Sending message: " + msg + " to Server");
 		
 		try
 		{

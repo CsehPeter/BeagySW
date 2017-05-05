@@ -20,13 +20,28 @@ public class Logic implements ICommand, Runnable
 		th.start();
 	}
 	
+	public void AddGame(IGameState game) throws NullPointerException
+	{
+		if(game == null) throw new NullPointerException("game is null");
+		
+		synchronized(_games)
+		{
+			_games.add(game);
+		}
+	}
+	
 	@Override
 	public void OnCommand(Command cmd)
 	{
 		System.out.println(cmd.PlayerId + "  " + cmd.Click + "  " + cmd.FromId + "  " +  cmd.ToId + "  " + cmd.Units);
 
+		if(cmd.PlayerId != gs.PlayerId) return;
+		
 		switch(cmd.Click)
 		{
+			case ClientConnected:
+				//_games.add(e)
+				break;
 			case Exit:
 				System.out.println("Player " + cmd.PlayerId + " disconnected");
 				break;
@@ -71,7 +86,7 @@ public class Logic implements ICommand, Runnable
 		switch(gs.Phase)
 		{
 		case Attack:
-			gs.Phase = Phases.Deploy;
+			gs.Phase = Phases.Transfer;
 			break;
 			
 		case Deploy:
@@ -79,12 +94,12 @@ public class Logic implements ICommand, Runnable
 			break;
 			
 		case Transfer:
-			gs.Phase = Phases.Deploy;
 			//Next Player
-			if( (gs.PlayerId + 1) > (_games.size() - 1) )
+			if( (gs.PlayerId + 1) < _games.size() )
 				gs.PlayerId++;
 			else
 				gs.PlayerId = 0;
+			gs.Phase = Phases.Deploy;
 			break;
 			
 		default: break;
@@ -98,7 +113,7 @@ public class Logic implements ICommand, Runnable
 		{
 			for(IGameState game : _games)
 			{
-					game.OnGameState(gs);
+					game.OnGameState(new GameState(gs.Phase, gs.ChangedTerritories, gs.PlayerId));
 			}
 			
 			try

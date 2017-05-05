@@ -21,7 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,7 +40,6 @@ import Control.GameState;
 import Control.ICommand;
 import Control.IGameState;
 import Control.Logic;
-import Control.Phases;
 import Control.Player;
 import Network.SerialClient;
 import Network.SerialServer;
@@ -55,14 +53,13 @@ public class GUI extends JFrame implements IGameState
 	private ICommand ctrl;
 	private JTextField textField;
 	private Player player;
-	// gamestate for testing:
-	private GameState gState= new GameState(Phases.Deploy, new ArrayList<Control.Territory>(), 0);
 	private JLabel lblStatus;
 	
 	private void StartServer()
 	{
 		ctrl = new Logic(this);
 		SerialServer sr = new SerialServer(ctrl);
+		((Logic)ctrl).AddGame(sr);
 		
 		sr.connect("localhost");
 		
@@ -224,7 +221,7 @@ public class GUI extends JFrame implements IGameState
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				lblStatus.setText("next pressed");
-				UpdateStatus(lblStatus, "nextPressed");
+				//UpdateStatus(lblStatus, "nextPressed");
 				
 				Command cmd = new Command(Clicks.Next, player.getId());
 				ctrl.OnCommand(cmd);
@@ -325,7 +322,6 @@ public class GUI extends JFrame implements IGameState
 	public void OnGameState(GameState gs) {
 		this.repaint();
 
-		this.gState = gs;
 		this.UpdateStatus(lblStatus, "phase: " + gs.Phase.name());
 	}
 }
