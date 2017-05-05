@@ -9,13 +9,13 @@ import Network.Messages.*;
 public class ServerGame extends Game
 {
 	private ArrayList<Player> _players = new ArrayList<Player>();
-	private HashMap<Player, GameState> status = new HashMap<Player, GameState>();
+	private HashMap<Player, GameStateType> status = new HashMap<Player, GameStateType>();
 	private int currentPlayerNumber = 0;
 	
 	public ServerGame()
 	{
 		//_players.add(player);
-		status.put(player, GameState.Connected);
+		status.put(player, GameStateType.Connected);
 		
 		Thread th = new Thread(this);
 		th.start();
@@ -28,21 +28,21 @@ public class ServerGame extends Game
 		msg = network.GetStatusMsg(StatusMsgType.Connected, true);
 		if(msg != null)
 		{
-			changePlayerState(msg.getPlayer(), GameState.Connected);
+			changePlayerState(msg.getPlayer(), GameStateType.Connected);
 		}
 		
 		msg = network.GetStatusMsg(StatusMsgType.Ready, true);
 		if(msg != null)
 		{
-			changePlayerState(msg.getPlayer(), GameState.Ready);
+			changePlayerState(msg.getPlayer(), GameStateType.Ready);
 		}
 		
 	}
 	
 	public void Ready()
 	{
-		changePlayerState(player, GameState.Ready);
-		gameState = GameState.Ready;
+		changePlayerState(player, GameStateType.Ready);
+		gameState = GameStateType.Ready;
 	}
 	
 	public void ReadyState()
@@ -53,21 +53,21 @@ public class ServerGame extends Game
 		msg = network.GetStatusMsg(StatusMsgType.Connected, true);
 		if(msg != null)
 		{
-			changePlayerState(msg.getPlayer(), GameState.Connected);
+			changePlayerState(msg.getPlayer(), GameStateType.Connected);
 		}
 		
 		//Check if a player sends ready signal
 		msg = network.GetStatusMsg(StatusMsgType.Ready, true);
 		if(msg != null)
 		{
-			changePlayerState(msg.getPlayer(), GameState.Ready);
+			changePlayerState(msg.getPlayer(), GameStateType.Ready);
 		}
 		
 		//Check if all players are ready
 		int readyPlayers = 0;
-		for(GameState state : status.values())
+		for(GameStateType state : status.values())
 		{
-			if(state == GameState.Ready)
+			if(state == GameStateType.Ready)
 			{
 				readyPlayers++;
 			}
@@ -88,10 +88,10 @@ public class ServerGame extends Game
 			network.send(new StatusMsg(p, StatusMsgType.PlayerInfo));
 			network.send(new StatusMsg(p, StatusMsgType.AllPlayerReady));
 			
-			changePlayerState(p, GameState.Wait);
+			changePlayerState(p, GameStateType.Wait);
 		}
 		
-		gameState = GameState.Deploy; //MINDIG A SZERVER KEZD!!!
+		gameState = GameStateType.Deploy; //MINDIG A SZERVER KEZD!!!
 	}
 	
 	//private Player NextPlayer()
@@ -121,7 +121,7 @@ public class ServerGame extends Game
 		
 	}
 	
-	private void changePlayerState(Player player, GameState gameState) throws NullPointerException
+	private void changePlayerState(Player player, GameStateType gameState) throws NullPointerException
 	{
 		if(player == null) throw new NullPointerException("player is null");
 		

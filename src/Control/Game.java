@@ -5,7 +5,7 @@ import Network.Network;
 
 public abstract class Game implements Runnable
 {
-	public GameState gameState; //a gui ezt állíthatja
+	public GameStateType gameState; //a gui ezt állíthatja
 	protected Player player;
 	protected GUI gui;
 	protected Map map;

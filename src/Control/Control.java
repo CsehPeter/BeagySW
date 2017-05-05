@@ -11,7 +11,7 @@ import Network.Messages.*;
 //Wait for player to select network type, then start it's thread
 public class Control
 {
-	private GameState _gameState;
+	private GameStateType _gameState;
 	private Network _network;
 	protected Player _player;
 	private GUI _gui;
@@ -54,14 +54,14 @@ public class Control
 			_network.connect("localhost");
 		}
 		
-		_gameState = GameState.Connected;
+		_gameState = GameStateType.Connected;
 	}
 	
 	//Send the ready signal
 	public void SendReady()
 	{
 		_network.send(new StatusMsg(_player, StatusMsgType.Ready));
-		_gameState = GameState.Ready;
+		_gameState = GameStateType.Ready;
 	}	
 	
 	//Waiting for the player's turn
@@ -70,7 +70,7 @@ public class Control
 		//Check if defeated
 		if(_network.GetStatusMsg(StatusMsgType.Defeat, false) != null)
 		{
-			_gameState = GameState.Defeat;
+			_gameState = GameStateType.Defeat;
 		}
 		
 		//Update map
@@ -83,7 +83,7 @@ public class Control
 		//Wait for turn started
 		if(_network.GetStatusMsg(StatusMsgType.TurnStarted, false) != null)
 		{
-			_gameState = GameState.Deploy;
+			_gameState = GameStateType.Deploy;
 		}
 	}
 

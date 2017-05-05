@@ -1,14 +1,8 @@
 package Control;
 
-public enum GameState
+public class GameState
 {
-	Unknown,
-	Connected,
-	Ready,
-	Wait,
-	Deploy,
-	Attack,
-	Transfer,
-	Win,
-	Defeat
+	//fázis
+	//arraylist territories
+	//active playerid
 }
