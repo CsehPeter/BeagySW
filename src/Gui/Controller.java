@@ -103,11 +103,11 @@ public class Controller implements IGameState
 	@Override
 	public void OnGameState(GameState gs)
 	{
-		_gs = new GameState(gs.Phase, gs.ChangedTerritories, gs.PlayerId);
+		_gs = new GameState(gs.Phase, gs.ChangedTerritories, gs.Player);
 		
 		for(Control.Territory t : gs.ChangedTerritories )
 		{
-			_gui.PaintTerritory(t.getId(), Color.red);
+			_gui.PaintTerritory(t.getId(), t.Owner.getColor());
 		}
 
 		_gui.UpdateStatus(gs.PlayerId, gs.Phase);

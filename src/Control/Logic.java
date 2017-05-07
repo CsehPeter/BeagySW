@@ -1,17 +1,26 @@
 package Control;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Gui.Colors;
+
 public class Logic implements ICommand, Runnable
 {
+	private int _id = 0;
+	
+	private ArrayList<Player> _players = new ArrayList<Player>();
 	private ArrayList<IGameState> _games = new ArrayList<IGameState>();
 	private Map _map = new Map();
 	private GameState gs;
 	
 	public Logic(IGameState game) throws NullPointerException
 	{
-		gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), 0);
+		Player player = new Player(_id, Colors.NextColor());
+		_players.add(player);
+		
+		gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), player);
 		if(game == null) throw new NullPointerException("game is null");
 		_games.add(game);
 		
@@ -30,19 +39,14 @@ public class Logic implements ICommand, Runnable
 		for(Territory t : _map._territories)
 		{
 			int own = rnd.nextInt(_games.size());
-			t.Owner.setId(own);
+			t.Owner = _players.get(own);
 			t.Units = 1;
 		}
-		for(Territory t : _map._territories)
-		{
-			System.out.println("ID: " + t.getId() + "  Name: " + t.getName() + "  Continent: " + t.getContinent() + "  Owner: " + t.Owner.getId() + "  Units: " + t.Units);
-		}
 		
-		gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), 0);
+		gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), _players.get(_id));
 		ChangeGs(_map);
 		gs.IsChanged = true;
 		
-		System.out.println("hey");
 		for(Territory t : _map._territories)
 		{
 			System.out.println("ID: " + t.getId() + "  Name: " + t.getName() + "  Continent: " + t.getContinent() + "  Owner: " + t.Owner.getId() + "  Units: " + t.Units);
@@ -70,6 +74,7 @@ public class Logic implements ICommand, Runnable
 		{
 			case ClientConnected:
 				//_games.add(e)
+				_players.add(new Player(_players.size(), Colors.NextColor()));
 				InitMap();
 				break;
 			case Exit:
@@ -208,7 +213,7 @@ public class Logic implements ICommand, Runnable
 				
 				for(IGameState game : _games)
 				{
-						game.OnGameState(new GameState(gs.Phase, gs.ChangedTerritories, gs.PlayerId));
+						game.OnGameState(new GameState(gs.Phase, gs.ChangedTerritories, gs.Player));
 				}
 			}
 			
