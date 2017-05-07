@@ -104,7 +104,7 @@ public class Map
 		_territories.add(new Territory(25, "North Africa", 			Continents.Africa, nb));
 		
 		nb.clear(); nb.add(21); nb.add(22); nb.add(24);
-		_territories.add(new Territory(26, "Egypt", 				Continents.Africa, nb));
+		_territories.add(new Territory(26, "South Africa", 				Continents.Africa, nb));
 		
 		
 		nb.clear(); nb.add(19); nb.add(28); nb.add(29); nb.add(33); nb.add(37);

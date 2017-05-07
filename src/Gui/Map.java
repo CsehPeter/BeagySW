@@ -11,12 +11,15 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
+import Control.Constants;
+import Control.Continents;
+
 /**
  * This class has been automatically generated using
  * <a href="http://ebourg.github.io/flamingo-svg-transcoder/">Flamingo SVG transcoder</a>.
  */
-public class Map {
-
+public class Map
+{
     /**
      * Paints the transcoded SVG image on the specified graphics context. You
      * can install a custom transformation on the graphics context to scale the
@@ -24,38 +27,44 @@ public class Map {
      * 
      * @param g Graphics context.
      */
-	
-    private static ArrayList<Territory> Territories = new ArrayList<Territory>();
-	
-    public ArrayList<Territory> getTerritories() {
-		return Territories;
+	Map()
+	{
+		//create()
 	}
+	
+	public Territory getTerritory(int id) throws IllegalArgumentException
+	{
+		if(id < 1 && id > Constants.NUMBER_OF_TERRITORIES) throw new IllegalArgumentException("Territory's Id must be between 1 and " + Constants.NUMBER_OF_TERRITORIES);
+		for(Territory t : Territories)
+		{
+			if(t.getId() == id) return t;
+		}
+		return null;
+	}
+	
+    public ArrayList<Territory> Territories = new ArrayList<Territory>();
 
-	public static void create(Graphics2D g) {
+	public void create(Graphics2D g)
+	{
         Shape shape = null;
         
         float origAlpha = 1.0f;
         Composite origComposite = g.getComposite();
-        if (origComposite instanceof AlphaComposite) {
+        if (origComposite instanceof AlphaComposite)
+        {
             AlphaComposite origAlphaComposite = (AlphaComposite)origComposite;
-            if (origAlphaComposite.getRule() == AlphaComposite.SRC_OVER) {
+            if (origAlphaComposite.getRule() == AlphaComposite.SRC_OVER)
+            {
                 origAlpha = origAlphaComposite.getAlpha();
             }
         }
         
         java.util.LinkedList<AffineTransform> transformations = new java.util.LinkedList<AffineTransform>();
         
-
-        // territoryList.add(new Territory(name, continent, shape)); 
-
-        // _0
-      
-
-        // _0_1
-
-        // _0_1_1
-
-        // _0_1_1_0
+        Territories.clear();
+        ArrayList<Integer> nb = new ArrayList<Integer>();
+        
+        //EAST AFRICA
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(532.0, 514.0);
         ((GeneralPath) shape).curveTo(531.0, 508.0, 531.0, 502.0, 530.0, 497.0);
@@ -89,12 +98,12 @@ public class Map {
         ((GeneralPath) shape).curveTo(533.0, 514.0, 532.0, 514.0, 532.0, 514.0);
         ((GeneralPath) shape).closePath();
 
-        String continent = "africa";
-        String name = "East Africa";
+        
         Point	pos = new Point(540, 426);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(21); nb.add(23); nb.add(24); nb.add(25); nb.add(26); nb.add(33);
+        Territories.add(new Territory(22, "East Africa", Continents.Africa, nb, shape, pos));
 
-        // _0_1_1_1
+        //EGYPT
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(484.0, 328.0);
         ((GeneralPath) shape).curveTo(492.0, 330.0, 499.0, 338.0, 507.0, 337.0);
@@ -118,12 +127,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(480.0, 328.0, 480.0, 328.0, 484.0, 328.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "africa";
-        name = "Egypt";
         pos = new Point(503, 359);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(18); nb.add(22); nb.add(25); nb.add(33);
+        Territories.add(new Territory(23, "Egypt", Continents.Africa, nb, shape, pos));
 
-        // _0_1_1_2
+        //CONGO
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(473.0, 502.0);
         ((GeneralPath) shape).curveTo(468.0, 496.0, 462.0, 490.0, 462.0, 482.0);
@@ -156,12 +164,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(480.0, 504.0, 479.0, 503.0, 473.0, 502.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "africa";
-        name = "Congo";
         pos = new Point(500, 488);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(22); nb.add(25); nb.add(26);
+        Territories.add(new Territory(21, "Congo", Continents.Africa, nb, shape, pos));
 
-        // _0_1_1_3
+        //MADAGASCAR
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(579.0, 589.0);
         ((GeneralPath) shape).curveTo(574.0, 583.0, 575.0, 574.0, 578.0, 567.0);
@@ -176,12 +183,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(598.0, 570.0, 590.0, 585.0, 579.0, 589.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "africa";
-        name = "Madagascar";
         pos = new Point(593, 567);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(22); nb.add(26);
+        Territories.add(new Territory(24, "Madagascar", Continents.Africa, nb, shape, pos));
 
-        // _0_1_1_4
+        //South Africa
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(473.0, 502.0);
         ((GeneralPath) shape).curveTo(479.0, 503.0, 480.0, 504.0, 488.0, 505.0);
@@ -223,12 +229,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(473.0, 503.0, 473.0, 502.0, 473.0, 502.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "africa";
-        name = "South Africa";
         pos = new Point(495, 565);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(21); nb.add(22); nb.add(24);
+        Territories.add(new Territory(26, "South Africa", Continents.Africa, nb, shape, pos));
 
-        // _0_1_1_5
+        //North Africa
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(468.0, 473.0);
         ((GeneralPath) shape).curveTo(467.0, 469.0, 467.0, 467.0, 468.0, 463.0);
@@ -273,14 +278,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(472.0, 473.0, 470.0, 473.0, 468.0, 473.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "africa";
-        name = "North Africa";
         pos = new Point(448, 408);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(11); nb.add(18); nb.add(20); nb.add(21); nb.add(22); nb.add(23);
+        Territories.add(new Territory(25, "North Africa", Continents.Africa, nb, shape, pos));
 
-        // _0_1_2
-
-        // _0_1_2_0
+        //Afghanistan
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(651.0, 310.0);
         ((GeneralPath) shape).curveTo(648.0, 306.0, 647.0, 305.0, 643.0, 303.0);
@@ -320,12 +322,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(657.0, 306.0, 657.0, 306.0, 651.0, 310.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Afghanistan";
         pos = new Point(640, 252);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(19); nb.add(28); nb.add(29); nb.add(33); nb.add(37);
+        Territories.add(new Territory(27, "Afghanistan", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_1
+        //India
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(713.0, 452.0);
         ((GeneralPath) shape).curveTo(712.0, 451.0, 711.0, 449.0, 709.0, 448.0);
@@ -384,12 +385,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(664.0, 363.0, 660.0, 363.0, 656.0, 363.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "India";
         pos = new Point(697, 351);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(27); nb.add(28); nb.add(33); nb.add(35);
+        Territories.add(new Territory(29, "India", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_2
+        //Irkutsk
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(786.0, 217.0);
         ((GeneralPath) shape).curveTo(775.0, 207.0, 781.0, 183.0, 789.0, 172.0);
@@ -411,12 +411,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(805.0, 219.0, 795.0, 220.0, 786.0, 217.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Irkutsk";
         pos = new Point(801, 189);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(32); nb.add(34); nb.add(36); nb.add(38);
+        Territories.add(new Territory(30, "Irkutsk", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_3
+        //Kamchatka
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(853.0, 198.0);
         ((GeneralPath) shape).curveTo(854.0, 188.0, 858.0, 178.0, 859.0, 168.0);
@@ -518,12 +517,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(963.0, 99.0, 962.0, 99.0, 962.0, 99.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Kamchatka";
         pos = new Point(938, 126);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(1); nb.add(30); nb.add(31); nb.add(32); nb.add(34);
+        Territories.add(new Territory(32, "Kamchatka", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_4
+        //Middle East
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(548.0, 321.0);
         ((GeneralPath) shape).curveTo(548.0, 320.0, 547.0, 318.0, 547.0, 317.0);
@@ -585,12 +583,11 @@ public class Map {
         ((GeneralPath) shape).lineTo(563.0, 353.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Middle East";
         pos = new Point(579, 356);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(18); nb.add(19); nb.add(23); nb.add(27); nb.add(29);
+        Territories.add(new Territory(33, "Middle East", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_5
+        //Mongolia
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(836.0, 271.0);
         ((GeneralPath) shape).curveTo(829.0, 261.0, 812.0, 262.0, 802.0, 260.0);
@@ -629,12 +626,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(842.0, 265.0, 840.0, 268.0, 836.0, 271.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Mongolia";
         pos = new Point(825, 238);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(28); nb.add(30); nb.add(31); nb.add(32); nb.add(36);
+        Territories.add(new Territory(34, "Mongolia", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_6
+        //Siam
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(757.0, 369.0);
         ((GeneralPath) shape).curveTo(758.0, 365.0, 759.0, 361.0, 761.0, 357.0);
@@ -676,12 +672,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(757.0, 371.0, 757.0, 370.0, 757.0, 369.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Siam";
         pos = new Point(770, 362);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(28); nb.add(29); nb.add(40);
+        Territories.add(new Territory(35, "Siam", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_7
+        //China
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(803.0, 361.0);
         ((GeneralPath) shape).curveTo(804.0, 359.0, 804.0, 358.0, 805.0, 356.0);
@@ -746,12 +741,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(848.0, 338.0, 848.0, 341.0, 841.0, 345.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "China";
         pos = new Point(751, 289);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(27); nb.add(29); nb.add(34); nb.add(35); nb.add(36); nb.add(37);
+        Territories.add(new Territory(28, "China", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_8
+        //Japan
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(887.0, 288.0);
         ((GeneralPath) shape).curveTo(887.0, 290.0, 887.0, 291.0, 887.0, 293.0);
@@ -808,12 +802,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(900.0, 282.0, 900.0, 281.0, 900.0, 280.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Japan";
         pos = new Point(911, 267);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(32); nb.add(34);
+        Territories.add(new Territory(31, "Japan", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_9
+        //Siberia
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(758.0, 250.0);
         ((GeneralPath) shape).curveTo(752.0, 238.0, 759.0, 226.0, 744.0, 223.0);
@@ -909,12 +902,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(731.0, 50.0, 728.0, 51.0, 725.0, 53.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Siberia";
         pos = new Point(742, 151);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(28); nb.add(30); nb.add(34); nb.add(37); nb.add(38);
+        Territories.add(new Territory(36, "Siberia", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_10
+        //Ural
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(720.0, 239.0);
         ((GeneralPath) shape).curveTo(715.0, 232.0, 717.0, 222.0, 705.0, 223.0);
@@ -947,12 +939,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(747.0, 258.0, 730.0, 242.0, 720.0, 239.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Ural";
         pos = new Point(674, 168);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(19); nb.add(27); nb.add(28); nb.add(36);
+        Territories.add(new Territory(37, "Ural", Continents.Asia, nb, shape, pos));
 
-        // _0_1_2_11
+        //Yakutsk
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(797.0, 166.0);
         ((GeneralPath) shape).curveTo(796.0, 158.0, 796.0, 148.0, 793.0, 140.0);
@@ -1028,14 +1019,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(869.0, 77.0, 865.0, 77.0, 862.0, 77.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "asia";
-        name = "Yakutsk";
         pos = new Point(834, 126);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(30); nb.add(32); nb.add(36);
+        Territories.add(new Territory(38, "Yakutsk", Continents.Asia, nb, shape, pos));
 
-        // _0_1_3
-
-        // _0_1_3_0
+        //Eastern Austrailia
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(875.0, 600.0);
         ((GeneralPath) shape).curveTo(875.0, 582.0, 875.0, 565.0, 875.0, 548.0);
@@ -1093,12 +1081,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(976.0, 555.0, 974.0, 556.0, 972.0, 556.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "australia";
-        name = "Eastern Austrailia";
         pos = new Point(851, 527);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(41); nb.add(42);
+        Territories.add(new Territory(39, "Eastern Australia", Continents.Australia, nb, shape, pos));
 
-        // _0_1_3_1
+        //New Guniea
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(936.0, 485.0);
         ((GeneralPath) shape).curveTo(934.0, 484.0, 931.0, 483.0, 928.0, 482.0);
@@ -1150,12 +1137,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(958.0, 460.0, 956.0, 461.0, 955.0, 461.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "australia";
-        name = "New Guniea";
         pos = new Point(911, 455);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(39); nb.add(40); nb.add(42);
+        Territories.add(new Territory(41, "New Guinea", Continents.Australia, nb, shape, pos));
 
-        // _0_1_3_2
+        //Western Austrailia
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(831.0, 510.0);
         ((GeneralPath) shape).curveTo(832.0, 523.0, 833.0, 535.0, 834.0, 548.0);
@@ -1191,12 +1177,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(829.0, 509.0, 830.0, 510.0, 831.0, 510.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "australia";
-        name = "Western Austrailia";
         pos = new Point(790, 555);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(39); nb.add(41);
+        Territories.add(new Territory(42, "Western Australia", Continents.Australia, nb, shape, pos));
 
-        // _0_1_3_3
+        //Indonesia
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(838.0, 474.0);
         ((GeneralPath) shape).curveTo(838.0, 474.0, 839.0, 473.0, 840.0, 473.0);
@@ -1327,14 +1312,13 @@ public class Map {
         ((GeneralPath) shape).curveTo(883.0, 388.0, 882.0, 388.0, 881.0, 388.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "australia";
-        name = "Indonesia";
         pos = new Point(825, 421);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(35); nb.add(41);
+        Territories.add(new Territory(40, "Indonesia", Continents.Australia, nb, shape, pos));
 
         // _0_1_4
 
-        // _0_1_4_0
+        //Great Britain
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(455.0, 226.0);
         ((GeneralPath) shape).curveTo(448.0, 228.0, 432.0, 235.0, 425.0, 234.0);
@@ -1365,12 +1349,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(428.0, 220.0, 426.0, 224.0, 415.0, 226.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "europe";
-        name = "Great Britain";
         pos = new Point(420, 200);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(15); nb.add(16); nb.add(17); nb.add(20);
+        Territories.add(new Territory(14, "Great Britain", Continents.Europe, nb, shape, pos));
 
-        // _0_1_4_1
+        //Iceland
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(425.0, 156.0);
         ((GeneralPath) shape).curveTo(423.0, 155.0, 420.0, 154.0, 417.0, 154.0);
@@ -1391,12 +1374,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(449.0, 157.0, 434.0, 155.0, 425.0, 156.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "europe";
-        name = "Iceland";
         pos = new Point(422, 148);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(5); nb.add(14); nb.add(17);
+        Territories.add(new Territory(15, "Iceland", Continents.Europe, nb, shape, pos));
 
-        // _0_1_4_2
+        //Northern Europe
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(470.0, 242.0);
         ((GeneralPath) shape).curveTo(468.0, 239.0, 467.0, 238.0, 464.0, 238.0);
@@ -1428,12 +1410,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(479.0, 245.0, 477.0, 245.0, 470.0, 242.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "europe";
-        name = "Northern Europe";
         pos = new Point(479, 220);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(14); nb.add(17); nb.add(18); nb.add(19); nb.add(20);
+        Territories.add(new Territory(16, "Northern Europe", Continents.Europe, nb, shape, pos));
 
-        // _0_1_4_3
+        //Scandinavia
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(541.0, 95.0);
         ((GeneralPath) shape).curveTo(532.0, 111.0, 542.0, 134.0, 542.0, 152.0);
@@ -1524,12 +1505,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(561.0, 48.0, 559.0, 48.0, 557.0, 48.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "europe";
-        name = "Scandinavia";
         pos = new Point(516, 109);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(14); nb.add(15); nb.add(16); nb.add(19);
+        Territories.add(new Territory(17, "Scandinavia", Continents.Europe, nb, shape, pos));
 
-        // _0_1_4_4
+        //Southern Europe
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(521.0, 316.0);
         ((GeneralPath) shape).curveTo(520.0, 314.0, 520.0, 314.0, 517.0, 313.0);
@@ -1586,12 +1566,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(527.0, 289.0, 535.0, 274.0, 527.0, 289.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "europe";
-        name = "Southern Europe";
         pos = new Point(507, 266);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(16); nb.add(19); nb.add(20); nb.add(23); nb.add(25); nb.add(33);
+        Territories.add(new Territory(18, "Southern Europe", Continents.Europe, nb, shape, pos));
 
-        // _0_1_4_5
+        //Ukraine
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(583.0, 279.0);
         ((GeneralPath) shape).curveTo(584.0, 270.0, 578.0, 266.0, 571.0, 264.0);
@@ -1709,12 +1688,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(617.0, 85.0, 616.0, 85.0, 615.0, 86.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "europe";
-        name = "Ukraine";
         pos = new Point(592, 181);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(16); nb.add(17); nb.add(18); nb.add(27); nb.add(33); nb.add(37);
+        Territories.add(new Territory(19, "Ukraine", Continents.Europe, nb, shape, pos));
 
-        // _0_1_4_6
+        //Western Europe
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(428.0, 312.0);
         ((GeneralPath) shape).curveTo(427.0, 310.0, 425.0, 309.0, 424.0, 307.0);
@@ -1744,14 +1722,13 @@ public class Map {
         ((GeneralPath) shape).curveTo(429.0, 312.0, 428.0, 312.0, 428.0, 312.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "europe";
-        name = "Western Europe";
         pos = new Point(426, 285);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(14); nb.add(16); nb.add(18); nb.add(25);
+        Territories.add(new Territory(20, "Western Europe", Continents.Europe, nb, shape, pos));
 
         // _0_1_5
 
-        // _0_1_5_0
+        //Alaska
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(109.0, 174.0);
         ((GeneralPath) shape).curveTo(110.0, 175.0, 111.0, 176.0, 112.0, 177.0);
@@ -1823,12 +1800,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(49.0, 169.0, 46.0, 170.0, 44.0, 172.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Alaska";
         pos = new Point(65, 122);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(2); nb.add(6); nb.add(32);
+        Territories.add(new Territory(1, "Alaska", Continents.NorthAmerica, nb, shape, pos));
 
-        // _0_1_5_1
+        //Alberta
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(136.0, 205.0);
         ((GeneralPath) shape).curveTo(135.0, 204.0, 134.0, 202.0, 132.0, 201.0);
@@ -1844,12 +1820,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(185.0, 206.0, 160.0, 206.0, 136.0, 205.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Alberta";
         pos = new Point(175, 177);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(1); nb.add(6); nb.add(7); nb.add(9);
+        Territories.add(new Territory(2, "Alberta", Continents.NorthAmerica, nb, shape, pos));
 
-        // _0_1_5_2
+        //Central America
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(212.0, 363.0);
         ((GeneralPath) shape).curveTo(209.0, 359.0, 206.0, 354.0, 203.0, 349.0);
@@ -1882,12 +1857,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(219.0, 361.0, 216.0, 361.0, 212.0, 363.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Central America";
         pos = new Point(182, 316);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(4); nb.add(9); nb.add(13);
+        Territories.add(new Territory(3, "Central America", Continents.NorthAmerica, nb, shape, pos));
 
-        // _0_1_5_3
+        //Eastern United States
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(197.0, 293.0);
         ((GeneralPath) shape).curveTo(195.0, 291.0, 193.0, 289.0, 191.0, 287.0);
@@ -1939,12 +1913,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(199.0, 292.0, 199.0, 292.0, 197.0, 293.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Eastern United States";
         pos = new Point(246, 257);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(3); nb.add(7); nb.add(8); nb.add(9);
+        Territories.add(new Territory(4, "Eastern United States", Continents.NorthAmerica, nb, shape, pos));
 
-        // _0_1_5_4
+        //Greenland
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(373.0, 174.0);
         ((GeneralPath) shape).curveTo(369.0, 172.0, 367.0, 171.0, 365.0, 166.0);
@@ -2052,12 +2025,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(379.0, 164.0, 377.0, 168.0, 373.0, 174.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Greenland";
         pos = new Point(403, 85);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(6); nb.add(7); nb.add(8); nb.add(15);
+        Territories.add(new Territory(5, "Greenland", Continents.NorthAmerica, nb, shape, pos));
 
-        // _0_1_5_5
+        //Northwest Territory
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(213.0, 155.0);
         ((GeneralPath) shape).curveTo(179.0, 153.0, 144.0, 151.0, 110.0, 149.0);
@@ -2356,12 +2328,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(243.0, 52.0, 243.0, 53.0, 241.0, 57.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Northwest Territory";
         pos = new Point(167, 128);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(1); nb.add(2); nb.add(5); nb.add(7);
+        Territories.add(new Territory(6, "Northwest Territory", Continents.NorthAmerica, nb, shape, pos));
 
-        // _0_1_5_6
+        //Ontario
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(264.0, 231.0);
         ((GeneralPath) shape).curveTo(266.0, 230.0, 266.0, 230.0, 267.0, 225.0);
@@ -2391,12 +2362,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(263.0, 235.0, 264.0, 233.0, 264.0, 231.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Ontario";
         pos = new Point(228, 187);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(2); nb.add(4); nb.add(5); nb.add(6); nb.add(8); nb.add(9);
+        Territories.add(new Territory(7, "Ontario", Continents.NorthAmerica, nb, shape, pos));
 
-        // _0_1_5_7
+        //Western United States
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(144.0, 275.0);
         ((GeneralPath) shape).curveTo(129.0, 251.0, 129.0, 242.0, 135.0, 214.0);
@@ -2416,12 +2386,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(153.0, 275.0, 148.0, 275.0, 144.0, 275.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Western United States";
         pos = new Point(159, 242);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(2); nb.add(3); nb.add(4); nb.add(7);
+        Territories.add(new Territory(9, "Western United States", Continents.NorthAmerica, nb, shape, pos));
 
-        // _0_1_5_8
+        //Quebec
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(319.0, 229.0);
         ((GeneralPath) shape).curveTo(319.0, 224.0, 319.0, 220.0, 319.0, 216.0);
@@ -2486,14 +2455,13 @@ public class Map {
         ((GeneralPath) shape).curveTo(363.0, 218.0, 360.0, 218.0, 357.0, 219.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "north-america";
-        name = "Quebec";
         pos = new Point(314, 180);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(4); nb.add(5); nb.add(7);
+        Territories.add(new Territory(8, "Quebec", Continents.NorthAmerica, nb, shape, pos));
 
         // _0_1_6
 
-        // _0_1_6_0
+        //Argentina
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(227.0, 487.0);
         ((GeneralPath) shape).curveTo(228.0, 487.0, 230.0, 486.0, 232.0, 485.0);
@@ -2580,12 +2548,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(299.0, 629.0, 299.0, 629.0, 295.0, 630.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "south-america";
-        name = "Argentina";
         pos = new Point(237, 549);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(11); nb.add(12);
+        Territories.add(new Territory(10, "Argentina", Continents.SouthAmerica, nb, shape, pos));
 
-        // _0_1_6_1
+        //Brazil
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(292.0, 514.0);
         ((GeneralPath) shape).curveTo(290.0, 504.0, 288.0, 501.0, 279.0, 496.0);
@@ -2637,12 +2604,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(293.0, 516.0, 293.0, 515.0, 292.0, 514.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "south-america";
-        name = "Brazil";
         pos = new Point(296, 449);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(10); nb.add(12); nb.add(13); nb.add(25);
+        Territories.add(new Territory(11, "Brazil", Continents.SouthAmerica, nb, shape, pos));
 
-        // _0_1_6_2
+        //Peru
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(227.0, 487.0);
         ((GeneralPath) shape).curveTo(223.0, 486.0, 220.0, 484.0, 217.0, 482.0);
@@ -2686,12 +2652,11 @@ public class Map {
         ((GeneralPath) shape).curveTo(230.0, 486.0, 228.0, 487.0, 227.0, 487.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "south-america";
-        name = "Peru";
         pos = new Point(233, 476);
-        Territories.add(new Territory(name, continent, shape, pos));
+        nb.clear(); nb.add(10); nb.add(11); nb.add(13); 
+        Territories.add(new Territory(12, "Peru", Continents.SouthAmerica, nb, shape, pos));
 
-        // _0_1_6_3
+        //Venezuela
         shape = new GeneralPath();
         ((GeneralPath) shape).moveTo(219.0, 423.0);
         ((GeneralPath) shape).curveTo(219.0, 423.0, 220.0, 422.0, 220.0, 422.0);
@@ -2733,13 +2698,9 @@ public class Map {
         ((GeneralPath) shape).curveTo(220.0, 424.0, 219.0, 423.0, 219.0, 423.0);
         ((GeneralPath) shape).closePath();
 
-        continent = "south-america";
-        name = "Venezuela";
         pos = new Point(222, 384);
-        Territories.add(new Territory(name, continent, shape, pos));
-
-
-
+        nb.clear(); nb.add(3); nb.add(11); nb.add(12);
+        Territories.add(new Territory(13, "Venezuela", Continents.SouthAmerica, nb, shape, pos));
     }
 
     /**
@@ -2747,7 +2708,8 @@ public class Map {
      * 
      * @return The X of the bounding box of the original SVG image.
      */
-    public static int getOrigX() {
+    public static int getOrigX()
+    {
         return 0;
     }
 
@@ -2756,7 +2718,8 @@ public class Map {
      * 
      * @return The Y of the bounding box of the original SVG image.
      */
-    public static int getOrigY() {
+    public static int getOrigY()
+    {
         return 1;
     }
 
@@ -2765,7 +2728,8 @@ public class Map {
      * 
      * @return The width of the bounding box of the original SVG image.
      */
-    public static int getOrigWidth() {
+    public static int getOrigWidth()
+    {
         return 1;
     }
 
@@ -2774,7 +2738,8 @@ public class Map {
      * 
      * @return The height of the bounding box of the original SVG image.
      */
-    public static int getOrigHeight() {
+    public static int getOrigHeight()
+    {
         return 1;
     }
 }

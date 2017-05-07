@@ -5,66 +5,86 @@ import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Territory {
-	private int 	id;
-	static  AtomicInteger nextId = new AtomicInteger();
-	private String 	name;
-	private String 	continent;
-	private Shape	shape;
-	private int 	units;
-	private Color 	fillColor;		// -> player.fillColor
-	private Point	displayPos;
+import Control.Constants;
+import Control.Continents;
+import Control.Player;
+
+public class Territory
+{
+	private int _id;
+	private String _name;
+	private Continents _continent;
+	private Shape _shape;
+	private Point _displayPos;
+	private ArrayList<Integer> _neighbours = new ArrayList<Integer>();
 	
+	public int Units;
+	public Player Owner;
+	public Boolean IsChanged;
 	
-	Territory(String nam, String cont, Shape sh, Point pos) {
-		id = nextId.incrementAndGet();
-		name = nam;
-		continent = cont;
-		displayPos = pos;
+	Territory(int id, String name, Continents continent, ArrayList<Integer> neighbours, Shape sh, Point pos) throws NullPointerException, IllegalArgumentException
+	{
+		if(id < 1 && id > Constants.NUMBER_OF_TERRITORIES) throw new IllegalArgumentException("Territory's Id must be between 1 and " + Constants.NUMBER_OF_TERRITORIES);
+		_id = id;
 		
-		setUnits(0);
-		shape = sh;
-		fillColor = new Color(0x222222);
+		if(name == null || name.isEmpty()) throw new IllegalArgumentException("Territory's name was null or empty string");
+		_name = name;
+		
+		_continent = continent;
+		
+		if(neighbours == null || neighbours.isEmpty()) throw new IllegalArgumentException("Territory's neighbours was null or empty");
+		_neighbours.clear();
+		
+		//Deep copy???
+		for(int neighbourId : neighbours)
+		{
+			_neighbours.add(neighbourId);
+		}
+		
+		if(pos == null) throw new NullPointerException("Territory's position was null");
+		_displayPos = pos;
+		
+		if(sh == null) throw new NullPointerException("Territory's shape was null");
+		_shape = sh;
+		
+		Units = 0;
+		IsChanged = false;
 	}
 	
-	public int getId() {
-		return id;
+	public int getId()
+	{
+		return _id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-
-	public Color getFillColor() {
-		return fillColor;
-	}
-
-	public void setFillColor(Color fillColor) {
-		this.fillColor = fillColor;
-	}
-
-	public String getContinent() {
-		return continent;
-	}
-
-	public Shape getShape() {
-		return shape;
+	public String getName()
+	{
+		return _name;
 	}
 	
-	public int getX(){
-		return displayPos.x;
-	}
-	public int getY(){
-		return displayPos.y;
-	}
-
-	public int getUnits() {
-		return units;
+	public Color getFillColor()
+	{
+		if(Owner != null)
+			return Owner.getColor();
+		else
+			return Color.GRAY;
 	}
 
-	public void setUnits(int units) {
-		this.units = units;
+	public Continents getContinent()
+	{
+		return _continent;
 	}
 
+	public Shape getShape()
+	{
+		return _shape;
+	}
+	
+	public int getX()
+	{
+		return _displayPos.x;
+	}
+	public int getY()
+	{
+		return _displayPos.y;
+	}
 }

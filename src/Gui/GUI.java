@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Gui;
 
 import static java.awt.Color.BLACK;
@@ -9,9 +5,7 @@ import static java.awt.Color.BLACK;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,66 +28,55 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import Control.Clicks;
-import Control.Command;
-import Control.GameState;
-import Control.ICommand;
-import Control.IGameState;
-import Control.Logic;
 import Control.Phases;
-import Control.Player;
-import Control.Support;
-import Network.SerialClient;
-import Network.SerialServer;
-import Tests.SupportTests;
 
-// OK btn + txtfield + testbtn
-public class GUI extends JFrame implements IGameState
+public class GUI extends JFrame
 {
-	private JPanel contentPane;
-	Map wMap = new Map();
-	private static final long serialVersionUID = 1L;
-	private ICommand ctrl;
-	private JTextField textField;
-	private Player player;
-	private JLabel lblStatus;
-	private GameState _gs;
-
-	private MapPanel mapPanel = new MapPanel();
+	private JPanel _contentPanel;
+	private JTextField _textField;
+	private JLabel _status;
+	private JTextArea _log;
 	
-	private void StartServer()
-	{
-		ctrl = new Logic(this);
-		SerialServer sr = new SerialServer(ctrl);
-		((Logic)ctrl).AddGame(sr); //EZ igen ronda
-		
-		sr.connect("localhost");
-		
-		player = new Player(0, Color.blue);
-	}
+	private MapPanel _mapPanel;
+	private Map _map = new Map();
 	
-	private void StartClient()
-	{
-		ctrl = new SerialClient(this);
-		((SerialClient)ctrl).connect("localhost");
-		
-		player = new Player(1, Color.red);
-	}
+	private Controller ctrl;
 	
 	public GUI()
 	{
-
-		super("RISK");
+		super("RISK"); //name of the main window
 		
-		//Default window settigns
+		//Default window settings
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1400, 1000);
+		
 		/*TEST*/	setBounds(0, 0, 800, 600);
 		
-		//Menubar
+		
+		
+		ctrl = new Controller(this, _map);
+
+		InitMenuBar();
+		InitContentPanel();
+		InitStatusBar();
+		InitTestButtons();
+		InitTextArea();
+		InitNextButton();
+		InitMapPanel();
+		
+		//_map.create((Graphics2D)_contentPanel.getGraphics());
+		_mapPanel.repaint();
+		
+		setVisible(true);
+	}
+	
+	private void InitMenuBar()
+	{
+		//MenuBar
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
+		//Connect menu
 		JMenu mnConnect = new JMenu("Connect");
 		menuBar.add(mnConnect);
 		
@@ -105,9 +88,7 @@ public class GUI extends JFrame implements IGameState
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				StartClient();
-				Command cmd = new Command(Clicks.ClientConnected, player.getId());
-				ctrl.OnCommand(cmd);
+				ctrl.StartClient();
 			}
 		});
 		
@@ -119,72 +100,83 @@ public class GUI extends JFrame implements IGameState
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				StartServer();
+				ctrl.StartServer();
 			}
 		});
-		
+				
 		//Exit button
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		menuBar.add(mntmExit);
-		mntmExit.addActionListener(new ActionListener() {
+		mntmExit.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				Command cmd = new Command(Clicks.Exit, player.getId());
-				ctrl.OnCommand(cmd);
+			public void actionPerformed(ActionEvent e)
+			{
+				ctrl.Exit();
 				System.exit(0);
 			}
 		});
-		
-		//
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+	}
+
+	private void InitContentPanel()
+	{
+		_contentPanel = new JPanel();
+		_contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(_contentPanel);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{126, 30, 424, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 252, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
-		
+		_contentPanel.setLayout(gbl_contentPane);
+	}
+	
+	private void InitStatusBar()
+	{
 		//Status bar
-		lblStatus = new JLabel("Status");
+		_status = new JLabel("Status");
 		GridBagConstraints gbc_lblStatus = new GridBagConstraints();
 		gbc_lblStatus.insets = new Insets(0, 0, 5, 0);
 		gbc_lblStatus.gridx = 2;
 		gbc_lblStatus.gridy = 0;
-		contentPane.add(lblStatus, gbc_lblStatus);
+		_contentPanel.add(_status, gbc_lblStatus);
 		
+		//OK button
 		JButton btnNewButton_1 = new JButton("OK");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				Command cmd = new Command(Clicks.Ok, player.getId());
-				ctrl.OnCommand(cmd);
+				ctrl.BtnOk();
 			}
 		});
+		
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 0;
 		gbc_btnNewButton_1.gridy = 1;
-		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+		_contentPanel.add(btnNewButton_1, gbc_btnNewButton_1);
 		
-		textField = new JTextField();
+		_textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.anchor = GridBagConstraints.WEST;
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 1;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(3);
-		
+		_contentPanel.add(_textField, gbc_textField);
+		_textField.setColumns(3);
+	}
+	
+	private void InitTestButtons()
+	{
 		//TEST BUTTON 1//
 		JButton btnT = new JButton("T1");
 
-		btnT.addActionListener(new ActionListener() {
-			
+		btnT.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				SupportTests.RunAll();
+			public void actionPerformed(ActionEvent e)
+			{
+				ctrl.Test1();
 			}
 		});
 		
@@ -192,31 +184,34 @@ public class GUI extends JFrame implements IGameState
 		gbc_btnT.insets = new Insets(0, 0, 5, 5);
 		gbc_btnT.gridx = 0;
 		gbc_btnT.gridy = 2;
-		contentPane.add(btnT, gbc_btnT);
+		_contentPanel.add(btnT, gbc_btnT);
 		
 		
 		//TEST BUTTON 2//
 		JButton btnT_1 = new JButton("T2");
-		btnT_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Running Test2");
-				Command cmd = new Command(Clicks.Ok, player.getId(), 30, 1, 2);
-				ctrl.OnCommand(cmd);
+		btnT_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				ctrl.Test2();
 			}
 		});
 		GridBagConstraints gbc_btnT_1 = new GridBagConstraints();
 		gbc_btnT_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnT_1.gridx = 1;
 		gbc_btnT_1.gridy = 2;
-		contentPane.add(btnT_1, gbc_btnT_1);
-		
+		_contentPanel.add(btnT_1, gbc_btnT_1);
+	}
+	
+	private void InitTextArea()
+	{
 		//Text Area
-		JTextArea txtrLog = new JTextArea();
-		txtrLog.setPreferredSize(new Dimension(150, 16));
-		txtrLog.setMinimumSize(new Dimension(100, 16));
-		txtrLog.setFont(new Font("Meiryo UI", Font.PLAIN, 12));
-		txtrLog.setEditable(false);
-		txtrLog.setText("Log");
+		_log = new JTextArea();
+		_log.setPreferredSize(new Dimension(150, 16));
+		_log.setMinimumSize(new Dimension(100, 16));
+		_log.setFont(new Font("Meiryo UI", Font.PLAIN, 12));
+		_log.setEditable(false);
+		_log.setText("Log");
 		GridBagConstraints gbc_txtrLog = new GridBagConstraints();
 		gbc_txtrLog.gridwidth = 2;
 		gbc_txtrLog.ipadx = 10;
@@ -224,18 +219,18 @@ public class GUI extends JFrame implements IGameState
 		gbc_txtrLog.fill = GridBagConstraints.VERTICAL;
 		gbc_txtrLog.gridx = 0;
 		gbc_txtrLog.gridy = 3;
-		contentPane.add(txtrLog, gbc_txtrLog);
-		
+		_contentPanel.add(_log, gbc_txtrLog);
+	}
+	
+	private void InitNextButton()
+	{
 		//Next button
 		JButton btnNewButton = new JButton("Next");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				lblStatus.setText("next pressed");
-				//UpdateStatus(lblStatus, "nextPressed");
-				
-				Command cmd = new Command(Clicks.Next, player.getId());
-				ctrl.OnCommand(cmd);
-				txtrLog.setText("");
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				ctrl.BtnNext();
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -243,85 +238,93 @@ public class GUI extends JFrame implements IGameState
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 0;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
-		
+		_contentPanel.add(btnNewButton, gbc_btnNewButton);
+	}
+	
+	private void InitMapPanel()
+	{
 		//Map
-		//JPanel mapPanel = new MapPanel();
-		FlowLayout flowLayout = (FlowLayout) mapPanel.getLayout();
-		mapPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		_mapPanel = new MapPanel();
+		
+		_mapPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		GridBagConstraints gbc_MapPanel = new GridBagConstraints();
 		gbc_MapPanel.fill = GridBagConstraints.BOTH;
 		gbc_MapPanel.gridheight = 3;
 		gbc_MapPanel.gridx = 2;
 		gbc_MapPanel.gridy = 1;		
-		contentPane.add(mapPanel, gbc_MapPanel);
+		_contentPanel.add(_mapPanel, gbc_MapPanel);
 		
 		//Click on map
-		mapPanel.addMouseListener(new MouseAdapter()
+		_mapPanel.addMouseListener(new MouseAdapter()
 		{
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				String country = "";
-				Command cmd;
-				for(Territory t : wMap.getTerritories())
+				for(Territory t : _map.Territories)
 				{
 					Shape sh = t.getShape();
-					if(sh.contains(e.getPoint())){
-						t.setFillColor(player.getColor());
-						country =t.getId() + " " + t.getName() + " - " + e.getX() + ", " + e.getY() ;
-						
-						if(_gs.PlayerId == player.getId() && _gs.Phase == Phases.Deploy)
-						{
-							cmd = new Command(Clicks.Territory, player.getId(), -1, -1, t.getId());
-							ctrl.OnCommand(cmd);
-						}
-						//TODO belekontárkodtam
-						mapPanel.RePaintTerritory(t.getId(), Color.cyan);
-					}				
-									
+					if(sh.contains(e.getPoint()))
+					{
+						ctrl.ClickOnMap(t.getId());
+					}							
 				}
-				//mapPanel.repaint();
 				
-				txtrLog.setText(txtrLog.getText() + "\n" +country);
 			}
 		});
-		
-		setVisible(true);
-		
-	}
-	
-	private void UpdateStatus(JLabel lbl, String str){
-		lbl.setText(str);
 	}
 
-	private class MapPanel extends JPanel {
+	
+	public void ClearLog()
+	{
+		_log.setText("");
+	}
+	public void AppendLog(String str)
+	{
+		_log.append(str + "\n");
+	}
+	
+	public void PaintTerritory(int territoryId, Color color)
+	{
+		_mapPanel.RePaintTerritory(territoryId, color);
+	}
+	
+	public void UpdateStatus(int playerId, Phases phase)
+	{
+		_status.setText("Player: " + ctrl.GetPlayerId() + "         Current Player: " + playerId + "  Phase: " + phase);
+	}
+
+	private class MapPanel extends JPanel
+	{
 
 		private static final long serialVersionUID = 1L;
 		
-		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			Graphics2D g2d = (Graphics2D) g.create();
-			Map.create(g2d);
-			
-			for(Territory t : wMap.getTerritories()) {
-				g2d.setPaint(t.getFillColor());
-		        g2d.fill(t.getShape());
-		        g2d.setPaint(BLACK);
-		        g2d.setStroke(new BasicStroke(1, 0, 0, 4));
-		        
-				g2d.draw(t.getShape());
-			}
-			
-		}
+//		@Override
+//		protected void paintComponent(Graphics g)
+//		{
+//			super.paintComponent(g);
+//			Graphics2D g2d = (Graphics2D) g.create();
+//			Map.create(g2d);
+//			
+//			for(Territory t : _map.Territories())
+//			{
+//				g2d.setPaint(t.getFillColor());
+//		        g2d.fill(t.getShape());
+//		        g2d.setPaint(BLACK);
+//		        g2d.setStroke(new BasicStroke(1, 0, 0, 4));
+//		        
+//				g2d.draw(t.getShape());
+//			}
+//			
+//		}
 
 		@Override
-		public void repaint() {
+		public void repaint()
+		{
 			//super.repaint();
 			Graphics2D g2d = (Graphics2D)super.getGraphics();
 			
-			for(Territory t : wMap.getTerritories()) {
+			for(Territory t : _map.Territories)
+			{
 				g2d.setPaint(t.getFillColor());
 		        g2d.fill(t.getShape());
 		        g2d.setPaint(BLACK);
@@ -336,7 +339,7 @@ public class GUI extends JFrame implements IGameState
 		public void RePaintTerritory(int territoryId, Color color)
 		{
 			Graphics2D g2d = (Graphics2D)super.getGraphics();
-			for(Territory t : wMap.getTerritories())
+			for(Territory t : _map.Territories)
 			{
 				if(t.getId() == territoryId)
 				{
@@ -349,17 +352,5 @@ public class GUI extends JFrame implements IGameState
 				}
 			}
 		}
-	}
-
-	@Override
-	public void OnGameState(GameState gs)
-	{
-		_gs = new GameState(gs.Phase, gs.ChangedTerritories, gs.PlayerId);
-		for( Control.Territory t : gs.ChangedTerritories )
-		{
-			mapPanel.RePaintTerritory(t.getId(), Color.red);
-		}
-
-		this.UpdateStatus(lblStatus, "Player " + gs.PlayerId + "  " + "Phase: " + gs.Phase.name());
 	}
 }
