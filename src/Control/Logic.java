@@ -11,9 +11,7 @@ public class Logic implements ICommand, Runnable
 	
 	public Logic(IGameState game) throws NullPointerException
 	{
-		_map.init();
-		gs = new GameState(Phases.Deploy, _map._territories, 0);
-		
+		gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), 0);
 		if(game == null) throw new NullPointerException("game is null");
 		_games.add(game);
 		
@@ -21,18 +19,34 @@ public class Logic implements ICommand, Runnable
 		th.start();
 	}
 	
-	public void RandomMap()
+	public void InitMap()
 	{
-		System.out.println("Random map");
+		_map = new Map();
+		_map.init();
+		
+		System.out.println("Randomize map");
 		Random rnd = new Random();
+		
 		for(Territory t : _map._territories)
 		{
 			int own = rnd.nextInt(_games.size());
 			t.Owner.setId(own);
-			System.out.println(own);
+			t.Units = 1;
 		}
+		for(Territory t : _map._territories)
+		{
+			System.out.println("ID: " + t.getId() + "  Name: " + t.getName() + "  Continent: " + t.getContinent() + "  Owner: " + t.Owner.getId() + "  Units: " + t.Units);
+		}
+		
+		gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), 0);
 		ChangeGs(_map);
 		gs.IsChanged = true;
+		
+		System.out.println("hey");
+		for(Territory t : _map._territories)
+		{
+			System.out.println("ID: " + t.getId() + "  Name: " + t.getName() + "  Continent: " + t.getContinent() + "  Owner: " + t.Owner.getId() + "  Units: " + t.Units);
+		}
 	}
 	
 	public void AddGame(IGameState game) throws NullPointerException
@@ -56,7 +70,7 @@ public class Logic implements ICommand, Runnable
 		{
 			case ClientConnected:
 				//_games.add(e)
-				RandomMap();
+				InitMap();
 				break;
 			case Exit:
 				System.out.println("Player " + cmd.PlayerId + " disconnected");
@@ -129,11 +143,14 @@ public class Logic implements ICommand, Runnable
 	
 	private void ChangeGs(Map map)
 	{
-		gs.ChangedTerritories.clear();
-		for(Territory t : map._territories)
-		{
-			gs.ChangedTerritories.add(t);
-		}
+		gs.ChangedTerritories = map._territories;
+//		for(Territory t : map._territories)
+//		{
+//			Territory tmp = new Territory(t.getId(), t.getName(), t.getContinent(), t.getNeighbours());
+//			tmp.Owner = t.Owner;
+//			tmp.Units = t.Units;
+//			gs.ChangedTerritories.add(tmp);
+//		}
 	}
 	
 	private void ChangeMap(GameState gs)

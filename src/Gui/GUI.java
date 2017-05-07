@@ -40,6 +40,7 @@ import Control.GameState;
 import Control.ICommand;
 import Control.IGameState;
 import Control.Logic;
+import Control.Phases;
 import Control.Player;
 import Control.Support;
 import Network.SerialClient;
@@ -56,6 +57,7 @@ public class GUI extends JFrame implements IGameState
 	private JTextField textField;
 	private Player player;
 	private JLabel lblStatus;
+	private GameState _gs;
 
 	private MapPanel mapPanel = new MapPanel();
 	
@@ -86,7 +88,7 @@ public class GUI extends JFrame implements IGameState
 		//Default window settigns
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1400, 1000);
-		/*TEST*/	setBounds(0, 0, 400, 300);
+		/*TEST*/	setBounds(0, 0, 800, 600);
 		
 		//Menubar
 		JMenuBar menuBar = new JMenuBar();
@@ -154,7 +156,8 @@ public class GUI extends JFrame implements IGameState
 		
 		JButton btnNewButton_1 = new JButton("OK");
 		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				Command cmd = new Command(Clicks.Ok, player.getId());
 				ctrl.OnCommand(cmd);
 			}
@@ -267,10 +270,19 @@ public class GUI extends JFrame implements IGameState
 					if(sh.contains(e.getPoint())){
 						t.setFillColor(player.getColor());
 						country =t.getId() + " " + t.getName() + " - " + e.getX() + ", " + e.getY() ;
+						
+						if(_gs.PlayerId == player.getId() && _gs.Phase == Phases.Deploy)
+						{
+							cmd = new Command(Clicks.Territory, player.getId(), -1, -1, t.getId());
+							ctrl.OnCommand(cmd);
+						}
+						//TODO belekontárkodtam
+						mapPanel.RePaintTerritory(t.getId(), Color.cyan);
 					}				
 									
 				}
-				mapPanel.repaint();
+				//mapPanel.repaint();
+				
 				txtrLog.setText(txtrLog.getText() + "\n" +country);
 			}
 		});
@@ -319,12 +331,35 @@ public class GUI extends JFrame implements IGameState
 			}
 			
 		}
+		
+		//TODO check this function!!!
+		public void RePaintTerritory(int territoryId, Color color)
+		{
+			Graphics2D g2d = (Graphics2D)super.getGraphics();
+			for(Territory t : wMap.getTerritories())
+			{
+				if(t.getId() == territoryId)
+				{
+					g2d.setPaint(color);
+					g2d.fill(t.getShape());
+					g2d.setPaint(BLACK);
+			        g2d.setStroke(new BasicStroke(1, 0, 0, 4));
+					g2d.draw(t.getShape());
+					g2d.drawString(Integer.toString(t.getId()), t.getX(),  t.getY());
+				}
+			}
+		}
 	}
 
 	@Override
-	public void OnGameState(GameState gs) {
-		//this.repaint();
+	public void OnGameState(GameState gs)
+	{
+		_gs = new GameState(gs.Phase, gs.ChangedTerritories, gs.PlayerId);
+		for( Control.Territory t : gs.ChangedTerritories )
+		{
+			mapPanel.RePaintTerritory(t.getId(), Color.red);
+		}
 
-		this.UpdateStatus(lblStatus, "phase: " + gs.Phase.name());
+		this.UpdateStatus(lblStatus, "Player " + gs.PlayerId + "  " + "Phase: " + gs.Phase.name());
 	}
 }
