@@ -1,6 +1,7 @@
 package Control;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Logic implements ICommand, Runnable
 {
@@ -20,6 +21,20 @@ public class Logic implements ICommand, Runnable
 		th.start();
 	}
 	
+	public void RandomMap()
+	{
+		System.out.println("Random map");
+		Random rnd = new Random();
+		for(Territory t : _map._territories)
+		{
+			int own = rnd.nextInt(_games.size());
+			t.Owner.setId(own);
+			System.out.println(own);
+		}
+		ChangeGs(_map);
+		gs.IsChanged = true;
+	}
+	
 	public void AddGame(IGameState game) throws NullPointerException
 	{
 		if(game == null) throw new NullPointerException("game is null");
@@ -35,12 +50,13 @@ public class Logic implements ICommand, Runnable
 	{
 		System.out.println(cmd.PlayerId + "  " + cmd.Click + "  " + cmd.FromId + "  " +  cmd.ToId + "  " + cmd.Units);
 
-		if(cmd.PlayerId != gs.PlayerId) return;
+		if(cmd.PlayerId != gs.PlayerId && cmd.Click != Clicks.ClientConnected) return;
 		
 		switch(cmd.Click)
 		{
 			case ClientConnected:
 				//_games.add(e)
+				RandomMap();
 				break;
 			case Exit:
 				System.out.println("Player " + cmd.PlayerId + " disconnected");
@@ -48,36 +64,84 @@ public class Logic implements ICommand, Runnable
 				
 			case Next:
 				NextState();
+				for(Territory t : _map._territories)
+				{
+					System.out.println(t.Owner.getId());
+				}
 				break;
 				
 			case Ok:
-				if(cmd.FromId >= 0 && cmd.ToId >= 0)
+				if(cmd.FromId > 0 && cmd.FromId <= Constants.NUMBER_OF_TERRITORIES && cmd.ToId > 0 && cmd.ToId <= Constants.NUMBER_OF_TERRITORIES)
 				{
-					if(Support.IsFriendlyTerritory(cmd.PlayerId, _map.getTerritory(cmd.FromId)))
+					if(gs.Phase == Phases.Attack)
 					{
-						//Transfer
+						int baseUnits = _map.getTerritory(cmd.FromId).Units;
+						if(Support.CanAttack(cmd.PlayerId, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units))
+						{
+							Support.Attack(cmd.PlayerId, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units);
+							
+							//Attacker won
+							if(_map.getTerritory(cmd.ToId).Units == 0)
+							{
+								_map.getTerritory(cmd.ToId).Owner.setId(cmd.PlayerId);
+								_map.getTerritory(cmd.ToId).Units = _map.getTerritory(cmd.FromId).Units - (baseUnits - cmd.Units); //20 -> 15 -> 7 -> 2
+							}
+							ChangeGs(_map);
+							gs.IsChanged = true;
+						}
+						else
+							System.out.println("Attack failed");
+					}
+					if(gs.Phase == Phases.Transfer)
+					{
+						if(Support.CanTransfer(cmd.PlayerId, _map, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId)))
+						{
+							_map.getTerritory(cmd.FromId).Units = _map.getTerritory(cmd.FromId).Units - cmd.Units;
+							_map.getTerritory(cmd.ToId).Units = _map.getTerritory(cmd.ToId).Units + cmd.Units;
+							ChangeGs(_map);
+							gs.IsChanged = true;
+						}
+						else
+							System.out.println("Transfer failed");
+					}
+				}
+
+				break;
+				
+			case Territory:
+				if(gs.Phase == Phases.Deploy)
+				{
+					if(cmd.ToId > 0 && cmd.ToId <= Constants.NUMBER_OF_TERRITORIES)
+					{
 						if(Support.IsFriendlyTerritory(cmd.PlayerId, _map.getTerritory(cmd.ToId)))
 						{
-							if(Support.CanTransfer(cmd.PlayerId, _map, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId)))
-							{
-								_map.getTerritory(cmd.FromId).Units = _map.getTerritory(cmd.FromId).Units - cmd.Units;
-								_map.getTerritory(cmd.ToId).Units = _map.getTerritory(cmd.ToId).Units + cmd.Units;
-							}
-							else
-								System.out.println("Transfer failed");
-						}
-						else //Attack
-						{
-							
+							_map.getTerritory(cmd.ToId).Units++;
+							ChangeGs(_map);
+							gs.IsChanged = true;
 						}
 					}
 				}
 				break;
 				
-			case Territory:
-				break;
-				
 			default: break;
+		}
+	}
+	
+	private void ChangeGs(Map map)
+	{
+		gs.ChangedTerritories.clear();
+		for(Territory t : map._territories)
+		{
+			gs.ChangedTerritories.add(t);
+		}
+	}
+	
+	private void ChangeMap(GameState gs)
+	{
+		for(Territory t : gs.ChangedTerritories)
+		{
+			_map.getTerritory(t.getId()).Owner = t.Owner;
+			_map.getTerritory(t.getId()).Units = t.Units;
 		}
 	}
 	

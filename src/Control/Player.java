@@ -12,6 +12,10 @@ public class Player implements Serializable
 	{
 		return _id;
 	}
+	public void setId(int id)
+	{
+		_id = id;
+	}
 	public Color getColor()
 	{
 		return _color;

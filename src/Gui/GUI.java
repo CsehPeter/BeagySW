@@ -41,8 +41,10 @@ import Control.ICommand;
 import Control.IGameState;
 import Control.Logic;
 import Control.Player;
+import Control.Support;
 import Network.SerialClient;
 import Network.SerialServer;
+import Tests.SupportTests;
 
 // OK btn + txtfield + testbtn
 public class GUI extends JFrame implements IGameState
@@ -61,7 +63,7 @@ public class GUI extends JFrame implements IGameState
 	{
 		ctrl = new Logic(this);
 		SerialServer sr = new SerialServer(ctrl);
-		((Logic)ctrl).AddGame(sr);
+		((Logic)ctrl).AddGame(sr); //EZ igen ronda
 		
 		sr.connect("localhost");
 		
@@ -84,7 +86,7 @@ public class GUI extends JFrame implements IGameState
 		//Default window settigns
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1400, 1000);
-		// /*TEST*/	setBounds(0, 0, 400, 300);
+		/*TEST*/	setBounds(0, 0, 400, 300);
 		
 		//Menubar
 		JMenuBar menuBar = new JMenuBar();
@@ -102,6 +104,8 @@ public class GUI extends JFrame implements IGameState
 			public void actionPerformed(ActionEvent e)
 			{
 				StartClient();
+				Command cmd = new Command(Clicks.ClientConnected, player.getId());
+				ctrl.OnCommand(cmd);
 			}
 		});
 		
@@ -177,8 +181,7 @@ public class GUI extends JFrame implements IGameState
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				SupportTests.RunAll();
 			}
 		});
 		
@@ -193,7 +196,9 @@ public class GUI extends JFrame implements IGameState
 		JButton btnT_1 = new JButton("T2");
 		btnT_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				System.out.println("Running Test2");
+				Command cmd = new Command(Clicks.Ok, player.getId(), 30, 1, 2);
+				ctrl.OnCommand(cmd);
 			}
 		});
 		GridBagConstraints gbc_btnT_1 = new GridBagConstraints();
