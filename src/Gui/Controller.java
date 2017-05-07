@@ -1,6 +1,7 @@
 package Gui;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 import Control.Clicks;
 import Control.Command;

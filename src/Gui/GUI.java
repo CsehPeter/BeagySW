@@ -5,7 +5,9 @@ import static java.awt.Color.BLACK;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -32,7 +34,9 @@ import Control.Phases;
 
 public class GUI extends JFrame
 {
-	private JPanel _contentPanel;
+	private static final long serialVersionUID = -8342265159647402288L;
+	
+	private JPanel _contentPanel = new JPanel();
 	private JTextField _textField;
 	private JLabel _status;
 	private JTextArea _log;
@@ -41,6 +45,12 @@ public class GUI extends JFrame
 	private Map _map = new Map();
 	
 	private Controller ctrl;
+	
+	//TODO remove this
+	public void test()
+	{
+		_map.create((Graphics2D)_mapPanel.getGraphics());
+	}
 	
 	public GUI()
 	{
@@ -55,17 +65,17 @@ public class GUI extends JFrame
 		
 		
 		ctrl = new Controller(this, _map);
-
+		
 		InitMenuBar();
 		InitContentPanel();
+		
+			setContentPane(_contentPanel);
+			
 		InitStatusBar();
 		InitTestButtons();
 		InitTextArea();
 		InitNextButton();
 		InitMapPanel();
-		
-		//_map.create((Graphics2D)_contentPanel.getGraphics());
-		_mapPanel.repaint();
 		
 		setVisible(true);
 	}
@@ -122,7 +132,9 @@ public class GUI extends JFrame
 	{
 		_contentPanel = new JPanel();
 		_contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(_contentPanel);
+		
+			setContentPane(_contentPanel);
+			
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{126, 30, 424, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 252, 0};
@@ -143,7 +155,8 @@ public class GUI extends JFrame
 		
 		//OK button
 		JButton btnNewButton_1 = new JButton("OK");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnNewButton_1.addActionListener(new ActionListener()
+		{
 			public void actionPerformed(ActionEvent e)
 			{
 				ctrl.BtnOk();
@@ -212,6 +225,7 @@ public class GUI extends JFrame
 		_log.setFont(new Font("Meiryo UI", Font.PLAIN, 12));
 		_log.setEditable(false);
 		_log.setText("Log");
+		
 		GridBagConstraints gbc_txtrLog = new GridBagConstraints();
 		gbc_txtrLog.gridwidth = 2;
 		gbc_txtrLog.ipadx = 10;
@@ -245,7 +259,6 @@ public class GUI extends JFrame
 	{
 		//Map
 		_mapPanel = new MapPanel();
-		
 		_mapPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		GridBagConstraints gbc_MapPanel = new GridBagConstraints();
 		gbc_MapPanel.fill = GridBagConstraints.BOTH;
@@ -278,6 +291,7 @@ public class GUI extends JFrame
 	{
 		_log.setText("");
 	}
+	
 	public void AppendLog(String str)
 	{
 		_log.append(str + "\n");
@@ -298,24 +312,24 @@ public class GUI extends JFrame
 
 		private static final long serialVersionUID = 1L;
 		
-//		@Override
-//		protected void paintComponent(Graphics g)
-//		{
-//			super.paintComponent(g);
-//			Graphics2D g2d = (Graphics2D) g.create();
-//			Map.create(g2d);
-//			
-//			for(Territory t : _map.Territories())
-//			{
-//				g2d.setPaint(t.getFillColor());
-//		        g2d.fill(t.getShape());
-//		        g2d.setPaint(BLACK);
-//		        g2d.setStroke(new BasicStroke(1, 0, 0, 4));
-//		        
-//				g2d.draw(t.getShape());
-//			}
-//			
-//		}
+		@Override
+		protected void paintComponent(Graphics g)
+		{
+			super.paintComponent(g);
+			Graphics2D g2d = (Graphics2D) g.create();
+			_map.create(g2d);
+			
+			for(Territory t : _map.Territories)
+			{
+				g2d.setPaint(t.getFillColor());
+		        g2d.fill(t.getShape());
+		        g2d.setPaint(BLACK);
+		        g2d.setStroke(new BasicStroke(1, 0, 0, 4));
+		        
+				g2d.draw(t.getShape());
+			}
+			
+		}
 
 		@Override
 		public void repaint()
