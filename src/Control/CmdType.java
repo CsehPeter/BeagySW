@@ -2,7 +2,7 @@ package Control;
 
 import java.io.Serializable;
 
-public enum Clicks implements Serializable
+public enum CmdType implements Serializable
 {
 	ClientConnected,
 	Territory,

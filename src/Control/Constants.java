@@ -18,6 +18,9 @@ public final class Constants
 	public static final int TERRITORY_PER_UNIT = 3;	//This amount of territories required to get one extra unit in the deploy phase
 	public static final int DEFAULT_DEPLOY_UNITS = 5;
 	
-	//Colors
-	public static final Color ACTIVE_COLOR = Color.cyan;
+	//Colours
+	public static final Color ACTIVE_COLOR[] = {Color.cyan, Color.orange};
+	
+	//Init
+	public static final int STARTING_UNITS = 10;
 }
