@@ -3,6 +3,9 @@ package Control;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Gui.Map;
+import Gui.Territory;
+
 public final class Support
 {
 	///\brief Calculates the number of deploy units
@@ -12,7 +15,7 @@ public final class Support
 		if(map == null) throw new NullPointerException("Map is null");
 		
 		int units = 0;
-		for(Territory territory : map._territories)
+		for(Territory territory : map.Territories)
 		{
 			if(territory.Owner.getId() == playerId) units++;
 		}

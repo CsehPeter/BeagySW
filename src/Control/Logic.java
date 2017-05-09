@@ -1,10 +1,11 @@
 package Control;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
 import Gui.Colors;
+import Gui.Map;
+import Gui.Territory;
 
 public class Logic implements ICommand, Runnable
 {
@@ -12,15 +13,19 @@ public class Logic implements ICommand, Runnable
 	
 	private ArrayList<Player> _players = new ArrayList<Player>();
 	private ArrayList<IGameState> _games = new ArrayList<IGameState>();
-	private Map _map = new Map();
+	private Map _map;
 	private GameState gs;
 	
-	public Logic(IGameState game) throws NullPointerException
+	public Logic(IGameState game, Map map) throws NullPointerException
 	{
 		Player player = new Player(_id, Colors.NextColor());
 		_players.add(player);
 		
+		if(map == null) throw new NullPointerException("map is null");
+		_map = map;
+		
 		gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), player);
+		
 		if(game == null) throw new NullPointerException("game is null");
 		_games.add(game);
 		
@@ -29,28 +34,26 @@ public class Logic implements ICommand, Runnable
 	}
 	
 	public void InitMap()
-	{
-		_map = new Map();
-		_map.init();
-		
+	{		
 		System.out.println("Randomize map");
 		Random rnd = new Random();
 		
-		for(Territory t : _map._territories)
+		for(Territory t : _map.Territories)
 		{
 			int own = rnd.nextInt(_games.size());
-			t.Owner = _players.get(own);
+			t.Owner = new Player(_players.get(own).getId(), _players.get(own).getColor());
 			t.Units = 1;
 		}
 		
 		gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), _players.get(_id));
 		ChangeGs(_map);
-		gs.IsChanged = true;
 		
-		for(Territory t : _map._territories)
+		for(Territory t : _map.Territories)
 		{
 			System.out.println("ID: " + t.getId() + "  Name: " + t.getName() + "  Continent: " + t.getContinent() + "  Owner: " + t.Owner.getId() + "  Units: " + t.Units);
 		}
+		
+		gs.IsChanged = true;
 	}
 	
 	public void AddGame(IGameState game) throws NullPointerException
@@ -66,9 +69,9 @@ public class Logic implements ICommand, Runnable
 	@Override
 	public void OnCommand(Command cmd)
 	{
-		System.out.println(cmd.PlayerId + "  " + cmd.Click + "  " + cmd.FromId + "  " +  cmd.ToId + "  " + cmd.Units);
+		System.out.println(cmd.Click + " Player: " + cmd.Player.getId() + "  Units: " + cmd.Units + "  FromId: " + cmd.FromId + "  ToId: " +  cmd.ToId);
 
-		if(cmd.PlayerId != gs.PlayerId && cmd.Click != Clicks.ClientConnected) return;
+		if(cmd.Player.getId() != gs.Player.getId() && cmd.Click != Clicks.ClientConnected) return;
 		
 		switch(cmd.Click)
 		{
@@ -78,15 +81,11 @@ public class Logic implements ICommand, Runnable
 				InitMap();
 				break;
 			case Exit:
-				System.out.println("Player " + cmd.PlayerId + " disconnected");
+				System.out.println("Player " + cmd.Player.getId() + " disconnected");
 				break;
 				
 			case Next:
 				NextState();
-				for(Territory t : _map._territories)
-				{
-					System.out.println(t.Owner.getId());
-				}
 				break;
 				
 			case Ok:
@@ -95,14 +94,14 @@ public class Logic implements ICommand, Runnable
 					if(gs.Phase == Phases.Attack)
 					{
 						int baseUnits = _map.getTerritory(cmd.FromId).Units;
-						if(Support.CanAttack(cmd.PlayerId, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units))
+						if(Support.CanAttack(cmd.Player.getId(), _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units))
 						{
-							Support.Attack(cmd.PlayerId, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units);
+							Support.Attack(cmd.Player.getId(), _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units);
 							
 							//Attacker won
 							if(_map.getTerritory(cmd.ToId).Units == 0)
 							{
-								_map.getTerritory(cmd.ToId).Owner.setId(cmd.PlayerId);
+								_map.getTerritory(cmd.ToId).Owner.setId(cmd.Player.getId());
 								_map.getTerritory(cmd.ToId).Units = _map.getTerritory(cmd.FromId).Units - (baseUnits - cmd.Units); //20 -> 15 -> 7 -> 2
 							}
 							ChangeGs(_map);
@@ -113,7 +112,7 @@ public class Logic implements ICommand, Runnable
 					}
 					if(gs.Phase == Phases.Transfer)
 					{
-						if(Support.CanTransfer(cmd.PlayerId, _map, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId)))
+						if(Support.CanTransfer(cmd.Player.getId(), _map, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId)))
 						{
 							_map.getTerritory(cmd.FromId).Units = _map.getTerritory(cmd.FromId).Units - cmd.Units;
 							_map.getTerritory(cmd.ToId).Units = _map.getTerritory(cmd.ToId).Units + cmd.Units;
@@ -132,7 +131,7 @@ public class Logic implements ICommand, Runnable
 				{
 					if(cmd.ToId > 0 && cmd.ToId <= Constants.NUMBER_OF_TERRITORIES)
 					{
-						if(Support.IsFriendlyTerritory(cmd.PlayerId, _map.getTerritory(cmd.ToId)))
+						if(Support.IsFriendlyTerritory(cmd.Player.getId(), _map.getTerritory(cmd.ToId)))
 						{
 							_map.getTerritory(cmd.ToId).Units++;
 							ChangeGs(_map);
@@ -148,13 +147,11 @@ public class Logic implements ICommand, Runnable
 	
 	private void ChangeGs(Map map)
 	{
-		gs.ChangedTerritories = map._territories;
-//		for(Territory t : map._territories)
+		gs.ChangedTerritories = map.Territories;
+//		gs.ChangedTerritories.clear();
+//		for(Territory t : map.Territories)
 //		{
-//			Territory tmp = new Territory(t.getId(), t.getName(), t.getContinent(), t.getNeighbours());
-//			tmp.Owner = t.Owner;
-//			tmp.Units = t.Units;
-//			gs.ChangedTerritories.add(tmp);
+//			gs.ChangedTerritories.add(t);
 //		}
 	}
 	
@@ -184,14 +181,14 @@ public class Logic implements ICommand, Runnable
 			
 		case Transfer:
 			//Next Player
-			if( (gs.PlayerId + 1) < _games.size() )
+			if( (gs.Player.getId()) < _players.size() - 1)
 			{
-				gs.PlayerId++;
+				gs.Player = _players.get(gs.Player.getId() + 1);
 			}
 				
 			else
 			{
-				gs.PlayerId = 0;
+				gs.Player = _players.get(0);
 			}
 			gs.Phase = Phases.Deploy;
 			gs.IsChanged = true;
@@ -206,14 +203,17 @@ public class Logic implements ICommand, Runnable
 	{
 		while(true)
 		{
-			if(gs.IsChanged == true)
+			synchronized(gs)
 			{
-				System.out.println("Change");
-				gs.IsChanged = false;
-				
-				for(IGameState game : _games)
+				if(gs.IsChanged == true)
 				{
+					System.out.println("Game state is changed");
+					gs.IsChanged = false;
+					
+					for(IGameState game : _games)
+					{
 						game.OnGameState(new GameState(gs.Phase, gs.ChangedTerritories, gs.Player));
+					}
 				}
 			}
 			

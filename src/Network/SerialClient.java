@@ -104,7 +104,7 @@ public class SerialClient extends Network implements ICommand
 		}
 		catch (IOException ex)
 		{
-			System.err.println("Send error.");
+			System.err.println("Send error in client.");
 		}
 	}
 

@@ -2,14 +2,14 @@ package Gui;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Shape;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import Control.Constants;
 import Control.Continents;
 import Control.Player;
 
-public class Territory
+public class Territory implements Serializable
 {
 	private int _id;
 	private String _name;
@@ -22,7 +22,7 @@ public class Territory
 	public Player Owner;
 	public Boolean IsChanged;
 	
-	Territory(int id, String name, Continents continent, ArrayList<Integer> neighbours, Shape sh, Point pos) throws NullPointerException, IllegalArgumentException
+	public Territory(int id, String name, Continents continent, ArrayList<Integer> neighbours, Shape sh, Point pos) throws NullPointerException, IllegalArgumentException
 	{
 		if(id < 1 && id > Constants.NUMBER_OF_TERRITORIES) throw new IllegalArgumentException("Territory's Id must be between 1 and " + Constants.NUMBER_OF_TERRITORIES);
 		_id = id;
@@ -72,6 +72,10 @@ public class Territory
 	public Continents getContinent()
 	{
 		return _continent;
+	}
+	public ArrayList<Integer> getNeighbours()
+	{
+		return _neighbours;
 	}
 
 	public Shape getShape()

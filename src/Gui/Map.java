@@ -27,10 +27,6 @@ public class Map
      * 
      * @param g Graphics context.
      */
-	Map()
-	{
-		//create()
-	}
 	
 	public Territory getTerritory(int id) throws IllegalArgumentException
 	{

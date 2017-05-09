@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import Control.*;
+import Gui.Map;
+import Gui.Territory;
 
 public final class SupportTests
 {
@@ -23,12 +25,12 @@ public final class SupportTests
 		ArrayList<Integer> nb = new ArrayList<Integer>();
 		
 		nb.clear(); nb.add(8);
-		Territory t1 = new Territory(4, "t1", Continents.Africa, nb);
+		Territory t1 = new Territory(4, "t1", Continents.Africa, nb, null, null);
 		t1.Owner = player1;
 		t1.Units = 20;
 		
 		nb.clear(); nb.add(4);
-		Territory t2 = new Territory(8, "t2", Continents.Africa, nb);
+		Territory t2 = new Territory(8, "t2", Continents.Africa, nb, null, null);
 		t2.Owner = player2;
 		t2.Units = 20;
 		
@@ -51,8 +53,7 @@ public final class SupportTests
 		Player player1 = new Player(4, Color.red);
 		Player player2 = new Player(88, Color.orange);
 		
-		map.init();
-		for(Territory t : map._territories)
+		for(Territory t : map.Territories)
 		{
 			t.Owner = player1;
 		}

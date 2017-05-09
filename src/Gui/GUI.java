@@ -46,11 +46,6 @@ public class GUI extends JFrame
 	
 	private Controller ctrl;
 	
-	//TODO remove this
-	public void test()
-	{
-		_map.create((Graphics2D)_mapPanel.getGraphics());
-	}
 	
 	public GUI()
 	{

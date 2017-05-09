@@ -121,7 +121,7 @@ public class SerialServer extends Network implements IGameState
 		}
 		catch (IOException ex)
 		{
-			System.err.println("Send error.");
+			System.err.println("Send error in server.");
 		}
 	}
 

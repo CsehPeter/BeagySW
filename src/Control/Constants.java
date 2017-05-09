@@ -1,5 +1,7 @@
 package Control;
 
+import java.awt.Color;
+
 public final class Constants
 {
 	//Territory
@@ -15,4 +17,7 @@ public final class Constants
 	//Deploy
 	public static final int TERRITORY_PER_UNIT = 3;	//This amount of territories required to get one extra unit in the deploy phase
 	public static final int DEFAULT_DEPLOY_UNITS = 5;
+	
+	//Colors
+	public static final Color ACTIVE_COLOR = Color.cyan;
 }

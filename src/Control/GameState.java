@@ -3,6 +3,7 @@ package Control;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Gui.Territory;
 import Network.NetMsg;
 
 public class GameState extends NetMsg implements Serializable
