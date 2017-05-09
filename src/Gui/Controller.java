@@ -12,6 +12,7 @@ import Control.IGameState;
 import Control.Logic;
 import Control.Phases;
 import Control.Player;
+import Control.Support;
 import Network.SerialClient;
 import Network.SerialServer;
 
@@ -70,11 +71,13 @@ public class Controller implements IGameState
 
 	public void BtnOk()
 	{
-		if(_gs.Phase == Phases.Attack || _gs.Phase == Phases.Transfer)
+		if(_gs.Player.getId() == _player.getId() && (_gs.Phase == Phases.Attack || _gs.Phase == Phases.Transfer))
 		{
-			ctrl.OnCommand(new Command(CmdType.Ok, _player, 5, _active[0], _active[1]));
-			ActivateTerritory(_active[0], 0, null);
-			ActivateTerritory(_active[1], 1, null);
+			//TODO Change the number of attacking units
+			ctrl.OnCommand(new Command(CmdType.Ok, _player, _map.getTerritory(_active[0]).Units - 1, _active[0], _active[1]));
+			
+			ActivateTerritory(_active[0], 0, Color.black);
+			ActivateTerritory(_active[1], 1, Color.black);
 		}
 		
 	}
@@ -88,25 +91,41 @@ public class Controller implements IGameState
 	{
 		if(_gs.Player.getId() == _player.getId())
 		{
-			if(_gs.Phase == Phases.Attack || _gs.Phase == Phases.Transfer)
+			if(_gs.Phase == Phases.Deploy)
 			{
+				ctrl.OnCommand(new Command(CmdType.Territory, _player, 1, -1, territoryId));
+			}
+			
+			if(_gs.Phase == Phases.Attack)
+			{
+				if(Support.IsFriendlyTerritory(_player.getId(), _map.getTerritory(territoryId)))
+				{
+					ActivateTerritory(territoryId, 0, Constants.ACTIVE_COLOR[0]);
+				}
+				else
+				{
+					ActivateTerritory(territoryId, 1, Constants.ACTIVE_COLOR[1]);
+				}
+			}
+			
+			if(_gs.Phase == Phases.Transfer)
+			{
+				if(Support.IsFriendlyTerritory(_player.getId(), _map.getTerritory(territoryId)) == false) return;
+				
 				ActivateTerritory(territoryId, _idx, Constants.ACTIVE_COLOR[_idx]);
 				if(_idx == 0)
 					_idx = 1;
 				else
 					_idx = 0;
 			}
-			if(_gs.Phase == Phases.Deploy)
-			{
-				ctrl.OnCommand(new Command(CmdType.Territory, _player, 1, -1, territoryId));
-			}
 		}
-		
-		
 	}
 	
 	private void ActivateTerritory(int territoryId, int idx, Color color)
 	{
+		//TODO remove debug print
+		System.out.println("Act0: " + _active[0] + "  Act1: " + _active[1] + "  Terr: " + territoryId);
+		
 		if(_active[idx] == territoryId)
 		{
 			_active[idx] = -1;
@@ -138,7 +157,8 @@ public class Controller implements IGameState
 		//System.out.println("Running Test2");
 		//ctrl.OnCommand(new Command(Clicks.Ok, _player.getId(), 30, 1, 2));
 		
-		_gui.AppendLog("blablablablabla");
+		//_gui.AppendLog("blablablablabla");
+		Tests.SupportTests.T_Battle();
 	}
 
 	@Override

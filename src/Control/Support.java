@@ -65,34 +65,57 @@ public final class Support
 		return false;
 	}
 		
-	///\brief Returns true if the attacker wins the battle, otherwise false
+	///\brief 'a' attacks 'b'
 	public static Boolean Attack(int playerId, Territory a, Territory b, int attackUnits)
 	{
 		CanAttack(playerId, a, b, attackUnits);
 		
-		//Calculate the number of friendly and enemy dice
-		int friendlyDice = 0;
-		int enemyDice = 0;
-		for(int i = 0; i < Constants.DICE_LIMITS.length - 1; i++)
-		{
-			if(attackUnits > Constants.DICE_LIMITS[i]) friendlyDice++;
-			if(b.Units > Constants.DICE_LIMITS[i]) enemyDice++;
-		}
+		int aUnits = attackUnits;
+		int bUnits = b.Units;
 		
-		//Battle
-		if(Roll(friendlyDice) > Roll(enemyDice))
+		do
 		{
-			b.Units--;
-			b.IsChanged = true;
+			//Calculate the number of friendly and enemy dice
+			int friendlyDice = 0;
+			int enemyDice = 0;
+			for(int i = 0; i < Constants.DICE_LIMITS.length - 1; i++)
+			{
+				if(attackUnits > Constants.DICE_LIMITS[i]) friendlyDice++;
+				if(b.Units > Constants.DICE_LIMITS[i]) enemyDice++;
+			}
+			
+			//Battle
+			if(Roll(friendlyDice) > Roll(enemyDice))
+			{
+				bUnits--;
+				b.IsChanged = true;
+			}
+			else
+			{
+				aUnits--;
+				a.IsChanged = true;
+			}
+		} while (bUnits > 0 && aUnits > 0);
+		
+		//Attackers won
+		if(bUnits == 0)
+		{
+			b.Owner = a.Owner;
+			b.Units = aUnits;	//remaining units
+			a.Units = a.Units - attackUnits;	//remove lost/transferred units
+			
 			return true;
 		}
-		else
+		else //Defenders won
 		{
-			a.Units--;
-			a.IsChanged = true;
+			b.Units = bUnits;
+			a.Units = a.Units - attackUnits;
+			
 			return false;
 		}
 	}
+	
+	//private static Boolean CanAttack()
 		
 	///\brief Returns the biggest number from a dice roll
 	private static int Roll(int dice) throws IllegalArgumentException
@@ -123,6 +146,8 @@ public final class Support
 		if(t.Owner.getId() == playerId) return true;
 		return false;
 	}
+	
+	//TODO Transfer method
 	
 	///\brief 	Return true if there is a territory connection line between the two friendly territories
 	///\details	Backtrack algorithm to search a line
@@ -155,6 +180,19 @@ public final class Support
 		used.remove(used.size() - 1);
 		return false;
 	}
-	
-	//TODO Function to convert map's changed territories to an action msg
+
+	public static Boolean Transfer(int playerId, Map map, Territory current, Territory goal, int units)
+	{
+		if(CanTransfer(playerId, map, current, goal) == false) return false;
+		
+		if(current.Units <= units) return false;
+		
+		current.Units = current.Units - units;
+		current.IsChanged = true;
+		
+		goal.Units = goal.Units + units;
+		goal.IsChanged = true;
+		
+		return true;
+	}
 }

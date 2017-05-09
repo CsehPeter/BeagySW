@@ -111,15 +111,7 @@ public class Logic implements ICommand, Runnable
 				{
 					if(cmd.ToId > 0 && cmd.ToId <= Constants.NUMBER_OF_TERRITORIES)
 					{
-						if(Support.IsFriendlyTerritory(cmd.Player.getId(), _map.getTerritory(cmd.ToId)))
-						{
-							_map.getTerritory(cmd.ToId).Units++;
-							
-							_map.getTerritory(cmd.ToId).IsChanged = true;
-							
-							ChangeGs(_map);
-							_gs.IsChanged = true;
-						}
+						Deploy(cmd);
 					}
 				}
 				break;
@@ -131,23 +123,24 @@ public class Logic implements ICommand, Runnable
 	private void ChangeGs(Map map)
 	{
 		//TODO GameState should only contain the changed territories
-		
-		if(_gs == null)
+		synchronized(_gs)
 		{
-			_gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), _players.get(_id));
-			_gs.ChangedTerritories = map.Territories;
-		}
-		_gs.ChangedTerritories.clear();
-		for(Territory t : map.Territories)
-		{
-			if(t.IsChanged == true)
+//			if(_gs == null)
+//			{
+//				_gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), _players.get(_id));
+//				_gs.ChangedTerritories = map.Territories;
+//			}
+			_gs.ChangedTerritories.clear();
+			for(Territory t : map.Territories)
 			{
-				_gs.ChangedTerritories.add(t);
-				t.IsChanged = false;
+				if(t.IsChanged == true)
+				{
+					_gs.ChangedTerritories.add(t);
+					t.IsChanged = false;
+				}
 			}
+			_gs.IsChanged = true;
 		}
-		
-		//_gs.ChangedTerritories = map.Territories;
 	}
 	
 	private void NextState()
@@ -184,25 +177,26 @@ public class Logic implements ICommand, Runnable
 		}
 	}
 
+	private void Deploy(Command cmd)
+	{
+		if(Support.IsFriendlyTerritory(cmd.Player.getId(), _map.getTerritory(cmd.ToId)))
+		{
+			_map.getTerritory(cmd.ToId).Units++;
+			
+			_map.getTerritory(cmd.ToId).IsChanged = true;
+			
+			ChangeGs(_map);
+		}
+	}
+	
 	private void Attack(Command cmd)
 	{
 		int baseUnits = _map.getTerritory(cmd.FromId).Units;
 		if(Support.CanAttack(cmd.Player.getId(), _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units))
 		{
-			do
-			{
-				Support.Attack(cmd.Player.getId(), _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units);
-				
-			} while(Support.CanAttack(cmd.Player.getId(), _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units));
+			Support.Attack(cmd.Player.getId(), _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units);
 			
-			//Attacker won
-			if(_map.getTerritory(cmd.ToId).Units == 0)
-			{
-				_map.getTerritory(cmd.ToId).Owner = cmd.Player;
-				_map.getTerritory(cmd.ToId).Units = _map.getTerritory(cmd.FromId).Units - (baseUnits - cmd.Units); //20 -> 15 -> 7 -> 2
-			}
 			ChangeGs(_map);
-			_gs.IsChanged = true;
 		}
 		else
 			System.out.println("Attack failed");
@@ -212,14 +206,9 @@ public class Logic implements ICommand, Runnable
 	{
 		if(Support.CanTransfer(cmd.Player.getId(), _map, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId)))
 		{
-			_map.getTerritory(cmd.FromId).Units = _map.getTerritory(cmd.FromId).Units - cmd.Units;
-			_map.getTerritory(cmd.ToId).Units = _map.getTerritory(cmd.ToId).Units + cmd.Units;
-			
-			_map.getTerritory(cmd.FromId).IsChanged = true;
-			_map.getTerritory(cmd.ToId).IsChanged = true;
+			Support.Transfer(cmd.Player.getId(), _map, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units);
 			
 			ChangeGs(_map);
-			_gs.IsChanged = true;
 		}
 		else
 			System.out.println("Transfer failed");

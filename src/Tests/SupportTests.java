@@ -1,7 +1,10 @@
 package Tests;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
+import java.util.Random;
 
 import Control.*;
 import Gui.Map;
@@ -24,25 +27,42 @@ public final class SupportTests
 		
 		ArrayList<Integer> nb = new ArrayList<Integer>();
 		
+		Random rnd = new Random();
+		
 		nb.clear(); nb.add(8);
-		Territory t1 = new Territory(4, "t1", Continents.Africa, nb, null, null);
+		Territory t1 = new Territory(4, "t1", Continents.Africa, nb, new GeneralPath(), new Point());
 		t1.Owner = player1;
-		t1.Units = 20;
+		t1.Units = rnd.nextInt(50);
 		
 		nb.clear(); nb.add(4);
-		Territory t2 = new Territory(8, "t2", Continents.Africa, nb, null, null);
+		Territory t2 = new Territory(8, "t2", Continents.Africa, nb, new GeneralPath(), new Point());
 		t2.Owner = player2;
-		t2.Units = 20;
+		t2.Units = rnd.nextInt(50);
 		
-		int round = 0;
-		while(Support.CanAttack(player1.getId(), t1, t2, t1.Units - 1))
-		{
-			System.out.println("Round:" + round++ + "   " + t1.Units + " vs " + t2.Units);
-			Support.Attack(player1.getId(), t1, t2, t1.Units - 1);
-		}
-		System.out.println("Round:" + round++ + "   " + t1.Units + " vs " + t2.Units);
-		if(t1.Units > t2.Units) System.out.println("Attackers won");
-		else System.out.println("Defenders won");
+//		int round = 0;
+//		while(Support.CanAttack(player1.getId(), t1, t2, t1.Units - 1))
+//		{
+//			System.out.println("Round:" + round++ + "   " + t1.Units + " vs " + t2.Units);
+//			Support.Attack(player1.getId(), t1, t2, t1.Units - 1);
+//		}
+//		System.out.println("Round:" + round++ + "   " + t1.Units + " vs " + t2.Units);
+//		if(t1.Units > t2.Units) System.out.println("Attackers won");
+//		else System.out.println("Defenders won");
+		
+		System.out.println("Before battle:");
+		System.out.println("Attacker -- ID: " + t1.getId() + "  Owner: " + t1.Owner.getId() + "  Units: " + t1.Units);
+		System.out.println("Defender -- ID: " + t2.getId() + "  Owner: " + t2.Owner.getId() + "  Units: " + t2.Units);
+		
+		Boolean won = Support.Attack(player1.getId(), t1, t2, t1.Units - 1);
+		
+		System.out.print("After battle: ");
+		if(won)
+			System.out.println("Attackers won");
+		else
+			System.out.println("Defenders won");
+		
+		System.out.println("Attacker -- ID: " + t1.getId() + "  Owner: " + t1.Owner.getId() + "  Units: " + t1.Units);
+		System.out.println("Defender -- ID: " + t2.getId() + "  Owner: " + t2.Owner.getId() + "  Units: " + t2.Units);
 	}
 	
 	public static void T_CanTransfer()
