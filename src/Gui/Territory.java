@@ -83,6 +83,10 @@ public class Territory implements Serializable
 		return _shape;
 	}
 	
+	public int getUnits() {
+		return Units;
+	}
+
 	public int getX()
 	{
 		return _displayPos.x;

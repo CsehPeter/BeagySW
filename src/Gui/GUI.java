@@ -339,7 +339,7 @@ public class GUI extends JFrame
 		        g2d.setPaint(BLACK);
 		        g2d.setStroke(new BasicStroke(1, 0, 0, 4));
 				g2d.draw(t.getShape());
-				g2d.drawString(Integer.toString(t.getId()), t.getX(),  t.getY());
+				g2d.drawString(Integer.toString(t.getUnits()), t.getX(),  t.getY());
 			}
 			
 		}
@@ -357,7 +357,7 @@ public class GUI extends JFrame
 					g2d.setPaint(BLACK);
 			        g2d.setStroke(new BasicStroke(1, 0, 0, 4));
 					g2d.draw(t.getShape());
-					g2d.drawString(Integer.toString(t.getId()), t.getX(),  t.getY());
+					g2d.drawString(Integer.toString(t.getUnits()), t.getX(),  t.getY());
 				}
 			}
 		}
