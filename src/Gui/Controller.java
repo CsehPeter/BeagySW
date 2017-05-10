@@ -76,8 +76,11 @@ public class Controller implements IGameState
 			//TODO Change the number of attacking units
 			ctrl.OnCommand(new Command(CmdType.Ok, _player, _map.getTerritory(_active[0]).Units - 1, _active[0], _active[1]));
 			
+			//TODO check this
 			ActivateTerritory(_active[0], 0, Color.black);
 			ActivateTerritory(_active[1], 1, Color.black);
+			_active[0] = -1;
+			_active[1] = -1;
 		}
 		
 	}
@@ -85,6 +88,12 @@ public class Controller implements IGameState
 	public void BtnNext()
 	{
 		ctrl.OnCommand(new Command(CmdType.Next, _player));
+		
+		//TODO check this:
+		ActivateTerritory(_active[0], 0, Color.black);
+		ActivateTerritory(_active[1], 1, Color.black);
+		_active[0] = -1;
+		_active[1] = -1;
 	}
 	
 	public void ClickOnMap(int territoryId)
@@ -123,8 +132,10 @@ public class Controller implements IGameState
 	
 	private void ActivateTerritory(int territoryId, int idx, Color color)
 	{
+		if(territoryId < 1 || territoryId > Constants.NUMBER_OF_TERRITORIES) return;
+		
 		//TODO remove debug print
-		System.out.println("Act0: " + _active[0] + "  Act1: " + _active[1] + "  Terr: " + territoryId);
+		//System.out.println("Act0: " + _active[0] + "  Act1: " + _active[1] + "  Terr: " + territoryId);
 		
 		if(_active[idx] == territoryId)
 		{
@@ -157,22 +168,19 @@ public class Controller implements IGameState
 		//System.out.println("Running Test2");
 		//ctrl.OnCommand(new Command(Clicks.Ok, _player.getId(), 30, 1, 2));
 		
-		//_gui.AppendLog("blablablablabla");
-		Tests.SupportTests.T_Battle();
+		_gui.AppendLog("blablablablabla");
+		
+		//Tests.SupportTests.T_Battle();
 	}
 
 	@Override
 	public void OnGameState(GameState gs)
-	{
-		//TODO check this:
-		_active[0] = -1;
-		_active[1] = -1;
-		
+	{		
 		_gs = new GameState(gs.Phase, gs.ChangedTerritories, gs.Player);
 		
 		for(Territory t : gs.ChangedTerritories )
 		{
-			_map.getTerritory(t.getId()).Owner = new Player(t.Owner.getId(), t.Owner.getColor());
+			_map.getTerritory(t.getId()).Owner = t.Owner; //new Player(t.Owner.getId(), t.Owner.getColor());
 			_map.getTerritory(t.getId()).Units = t.Units;
 			
 			_gui.PaintTerritory(t.getId(), t.Owner.getColor());
