@@ -187,5 +187,27 @@ public class Controller implements IGameState
 		}
 
 		_gui.UpdateStatus(gs.Player.getId(), gs.Phase);
+		
+//		String logMessage = "";
+////		
+//		switch(_gs.Phase){
+//			case Deploy:
+//				logMessage = "deploy\n";
+//				System.out.println("deploy");
+//				break;
+//			case Attack:
+//				logMessage = "attack";
+//				System.out.println("Attack");
+//				break;
+//			case Transfer:
+//				logMessage = "transfer";
+//				System.out.println("transfer");
+//				break;
+//			default:
+//				logMessage = "default";
+//				System.out.println("default");
+//				break;
+//		}
+//		_gui.AppendLog(logMessage); // ez elrontja a terkepet
 	}
 }
