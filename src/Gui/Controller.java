@@ -188,6 +188,8 @@ public class Controller implements IGameState
 
 		_gui.UpdateStatus(gs.Player.getId(), gs.Phase);
 		
+		//_gui.AppendLog(gs.Phase.toString());
+		
 //		String logMessage = "";
 ////		
 //		switch(_gs.Phase){

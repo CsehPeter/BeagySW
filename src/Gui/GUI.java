@@ -55,8 +55,8 @@ public class GUI extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1400, 1000);
 		
-		/*TEST*/	setBounds(0, 0, 800, 600);
-		
+		/*TEST*/	setBounds(0, 0, 1240, 760);
+		setResizable(false);
 		
 		
 		ctrl = new Controller(this, _map);
