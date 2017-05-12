@@ -32,6 +32,7 @@ public class SerialServer extends Network implements IGameState
 	public void OnGameState(GameState gs) throws NullPointerException
 	{
 		if(gs == null) throw new NullPointerException("gs is null");
+		
 		send(gs);
 	}
 

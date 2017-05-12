@@ -43,9 +43,11 @@ public class SerialClient extends Network implements ICommand
 				while (true)
 				{
 					NetMsg msg = (NetMsg) in.readObject();
+					
 					if(msg instanceof GameState)
 					{
-						//System.out.println(((GameState)msg).PlayerId + "  " + ((GameState)msg).Phase);
+						System.out.println(((GameState)msg).Player.getId() + "  " + ((GameState)msg).Phase + "  " + ((GameState)msg).ChangedTerritories.size());
+						
 						_game.OnGameState((GameState)msg);
 					}
 					Thread.sleep(5);

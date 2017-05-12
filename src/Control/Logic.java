@@ -191,7 +191,7 @@ public class Logic implements ICommand, Runnable
 	
 	private void Attack(Command cmd)
 	{
-		int baseUnits = _map.getTerritory(cmd.FromId).Units;
+		//int baseUnits = _map.getTerritory(cmd.FromId).Units;
 		if(Support.CanAttack(cmd.Player.getId(), _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units))
 		{
 			Support.Attack(cmd.Player.getId(), _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId), cmd.Units);

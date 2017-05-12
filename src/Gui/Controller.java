@@ -180,6 +180,9 @@ public class Controller implements IGameState
 		
 		for(Territory t : gs.ChangedTerritories )
 		{
+			
+			System.out.println(t.getId() + "  " + t.Units);
+			
 			_map.getTerritory(t.getId()).Owner = t.Owner; //new Player(t.Owner.getId(), t.Owner.getColor());
 			_map.getTerritory(t.getId()).Units = t.Units;
 			
