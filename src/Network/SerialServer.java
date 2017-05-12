@@ -33,6 +33,8 @@ public class SerialServer extends Network implements IGameState
 	{
 		if(gs == null) throw new NullPointerException("gs is null");
 		
+		System.out.println("Server changedTerritories size: " + gs.ChangedTerritories.size());
+		
 		send(gs);
 	}
 
@@ -119,6 +121,7 @@ public class SerialServer extends Network implements IGameState
 		{
 			out.writeObject(msg);
 			out.flush();
+			out.reset();
 		}
 		catch (IOException ex)
 		{
@@ -138,8 +141,7 @@ public class SerialServer extends Network implements IGameState
 		}
 		catch (IOException ex)
 		{
-			Logger.getLogger(SerialServer.class.getName()).log(Level.SEVERE,
-					null, ex);
+			Logger.getLogger(SerialServer.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 

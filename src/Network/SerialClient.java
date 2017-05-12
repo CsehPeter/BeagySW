@@ -46,7 +46,7 @@ public class SerialClient extends Network implements ICommand
 					
 					if(msg instanceof GameState)
 					{
-						System.out.println(((GameState)msg).Player.getId() + "  " + ((GameState)msg).Phase + "  " + ((GameState)msg).ChangedTerritories.size());
+						System.out.println("Client changedTerritories size: " + ((GameState)msg).ChangedTerritories.size());
 						
 						_game.OnGameState((GameState)msg);
 					}
@@ -103,6 +103,7 @@ public class SerialClient extends Network implements ICommand
 		{
 			out.writeObject(msg);
 			out.flush();
+			out.reset();
 		}
 		catch (IOException ex)
 		{
