@@ -35,8 +35,8 @@ public class Player implements Serializable
 	/**
 	 * @param id ID of the new player, must be zero or higher
 	 * @param color Color of the new player
-	 * @throws IllegalArgumentException
-	 * @throws NullPointerException
+	 * @throws IllegalArgumentException Thrown when the ID is lower than zero
+	 * @throws NullPointerException Thrown when color is a null reference
 	 */
 	public Player(int id, Color color) throws IllegalArgumentException, NullPointerException
 	{

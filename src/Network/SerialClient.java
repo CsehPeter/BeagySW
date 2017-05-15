@@ -78,7 +78,7 @@ public class SerialClient extends Network implements ICommand
 	}
 
 	/**
-	 * @param Client connect to this ip address
+	 * @param ip Client connect to this ip address
 	 */
 	@Override
 	public void connect(String ip)

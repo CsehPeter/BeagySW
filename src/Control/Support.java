@@ -13,7 +13,7 @@ public final class Support
 	 * @param playerId ID of the player whose units should be calculated
 	 * @param map The world map
 	 * @return Number of units that can be deployed by the player based on the player's owned territories
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when map is a null reference
 	 * @see Gui.Map
 	 **/
 	public static int DeployUnits(int playerId, Map map) throws NullPointerException
@@ -33,7 +33,7 @@ public final class Support
 	 * @param a One of the two territories where territory 'b' should be a neighbour
 	 * @param b One of the two territories where territory 'a' should be a neighbour
 	 * @return True if the two territories are neighbours, otherwise false
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when any territory is a null reference
 	 * @see Gui.Territory
 	 */
 	public static Boolean AreNeighbours(Territory a, Territory b) throws NullPointerException
@@ -57,7 +57,7 @@ public final class Support
 	 * @param b Aim territory of the defending player
 	 * @param attackUnits Number of units which are attacking
 	 * @return True if the attack can be executed according to the rules of Risk, otherwise false
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when any territory is a null reference
 	 * @see Gui.Territory
 	 */
 	public static Boolean CanAttack(int playerId, Territory a, Territory b, int attackUnits) throws NullPointerException
@@ -91,7 +91,7 @@ public final class Support
 	 * @param b Aim territory of the defending player, this method is modifying this territory
 	 * @param attackUnits Number of units which are attacking
 	 * @return True if the attacker conquered territory 'b'
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown any territory is null reference
 	 * @see Gui.Territory
 	 */
 	public static Boolean Attack(int playerId, Territory a, Territory b, int attackUnits)
@@ -146,7 +146,7 @@ public final class Support
 	/**
 	 * @param dice Number of dice in a single roll
 	 * @return The biggest number from a dice roll(random generated values)
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException Thrown when the dice is smaller than the minimum number of dice of higher than the maximum value of dice
 	 */
 	private static int Roll(int dice) throws IllegalArgumentException
 	{
@@ -188,7 +188,7 @@ public final class Support
 	 * @param current Base territory which should be the start point of the transfer
 	 * @param goal Goal territory of the transfer
 	 * @return True if the units on the current territory can reach the goal territory in a friendly line
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when the map or any territory is a null reference
 	 * @see Gui.Map
 	 * @see Gui.Territory
 	 * Uses recursive backtrack algorithm
@@ -204,10 +204,14 @@ public final class Support
 		used.add(current.getId());
 		return CanTransfer(playerId, map, current, goal, used);
 	}
-	
 	/**
-	 * @see The public Control.Support.CanTransfer method
+	 * 
+	 * @param playerId Id of the player whose units should be transferred
+	 * @param map World map
+	 * @param current Base territory which should be the start point of the transfer
+	 * @param goal Goal territory of the transfer
 	 * @param used An ArrayList with the used territory IDs for the backtrack algorithm
+	 * @return True if the units on the current territory can reach the goal territory in a friendly line
 	 */
 	private static Boolean CanTransfer(int playerId, Map map, Territory current, Territory goal, ArrayList<Integer> used)
 	{
@@ -232,10 +236,11 @@ public final class Support
 	 * @param map World map
 	 * @param current Base territory which should be the start point of the transfer
 	 * @param goal Goal territory of the transfer
+	 * @param units Number of transferred units from current to goal
 	 * @return True if the transfer is completed, otherwise false
 	 * @see Gui.Map
 	 * @see Gui.Territory
-	 * @see Control.Support.CanTransfer
+	 * @see Control.Support
 	 */
 	public static Boolean Transfer(int playerId, Map map, Territory current, Territory goal, int units)
 	{

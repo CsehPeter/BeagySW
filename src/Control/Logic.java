@@ -21,7 +21,7 @@ public class Logic implements ICommand, Runnable
 	/**
 	 * @param game Should be the server's game
 	 * @param map Should be the server's map
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when map is a null reference
 	 */
 	public Logic(IGameState game, Map map) throws NullPointerException
 	{
@@ -69,7 +69,7 @@ public class Logic implements ICommand, Runnable
 	
 	/**
 	 * @param game Adds this game to the list of games
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when game is a null reference
 	 */
 	public void AddGame(IGameState game) throws NullPointerException
 	{

@@ -32,7 +32,7 @@ public class Controller implements IGameState
 	
 	/**
 	 * @return ID of the player in the Controller object
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when the player is null reference
 	 */
 	public int GetPlayerId() throws NullPointerException
 	{
@@ -43,7 +43,7 @@ public class Controller implements IGameState
 	/**
 	 * @param gui Reference to the GUI which instantiate this class
 	 * @param map Reference to the map of the GUI
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when any parameter is null
 	 * @see Gui.GUI
 	 * @see Gui.Map
 	 */

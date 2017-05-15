@@ -25,7 +25,7 @@ public class SerialServer extends Network implements IGameState
 	
 	/**
 	 * @param cmdIf ICommand on which the OnCOmmand method will be called 
-	 * @throws NullPointerException
+	 * @throws NullPointerException Thrown when cmdIf is a null reference
 	 */
 	public SerialServer(ICommand cmdIf) throws NullPointerException
 	{
@@ -107,7 +107,7 @@ public class SerialServer extends Network implements IGameState
 	}
 
 	/**
-	 * @param not used
+	 * @param ip not used parameter
 	 */
 	@Override
 	public void connect(String ip)
