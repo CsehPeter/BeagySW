@@ -215,7 +215,6 @@ public class Controller implements IGameState
 				}
 				break;
 			default:
-				logMessage = "default";
 				break;
 		}
 		_gui.AppendLog(logMessage); // ez elrontja a terkepet
