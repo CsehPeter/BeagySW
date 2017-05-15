@@ -178,6 +178,7 @@ public class Controller implements IGameState
 	{		
 		_gs = new GameState(gs.Phase, gs.ChangedTerritories, gs.Player);
 		
+		
 		for(Territory t : gs.ChangedTerritories )
 		{
 			
@@ -200,7 +201,12 @@ public class Controller implements IGameState
 				logMessage = "P"+gs.Player.getId()+" deploy";
 				break;
 			case Attack:
-				logMessage = "attack";
+				if(gs.ChangedTerritories.size() == 2){
+					logMessage = "P"+gs.Player.getId()+
+						" attacked \nfrom: "+gs.ChangedTerritories.get(0).getName()+
+						"\nto: "+ gs.ChangedTerritories.get(1).getName();
+				}
+//				else logMessage = "attack";
 				break;
 			case Transfer:
 				logMessage = "transfer";

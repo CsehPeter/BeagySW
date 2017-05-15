@@ -217,7 +217,7 @@ public class GUI extends JFrame
 		_log = new JTextArea();
 		_log.setPreferredSize(new Dimension(150, 16));
 		_log.setMinimumSize(new Dimension(100, 16));
-		_log.setFont(new Font("Meiryo UI", Font.PLAIN, 12));
+		_log.setFont(new Font("Meiryo UI", Font.PLAIN, 10));
 		_log.setText("Log");
 		
 		GridBagConstraints gbc_txtrLog = new GridBagConstraints();
