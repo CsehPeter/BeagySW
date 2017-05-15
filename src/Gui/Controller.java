@@ -198,20 +198,21 @@ public class Controller implements IGameState
 
 		switch(_gs.Phase){
 			case Deploy:
-				logMessage = "P"+gs.Player.getId()+" deploy";
+				logMessage = "P"+gs.Player.getId()+" deploy to: "+gs.ChangedTerritories.get(0).getName();
 				break;
 			case Attack:
 				if(gs.ChangedTerritories.size() == 2){
 					logMessage = "P"+gs.Player.getId()+
-						" attacked \nfrom: "+gs.ChangedTerritories.get(0).getName()+
-						"\nto: "+ gs.ChangedTerritories.get(1).getName();
+						" attacked \nfrom: "+gs.ChangedTerritories.get(1).getName()+
+						"\nto: "+ gs.ChangedTerritories.get(0).getName();
 				}
-//				else logMessage = "attack";
 				break;
 			case Transfer:
-				logMessage = "P"+gs.Player.getId()+
-				" transfered \nfrom: "+gs.ChangedTerritories.get(0).getName()+
-				"\nto: "+ gs.ChangedTerritories.get(1).getName();
+				if(gs.ChangedTerritories.size() == 2){
+					logMessage = "P"+gs.Player.getId()+
+						" transfered \nfrom: "+gs.ChangedTerritories.get(0).getName()+
+						"\nto: "+ gs.ChangedTerritories.get(1).getName();
+				}
 				break;
 			default:
 				logMessage = "default";
