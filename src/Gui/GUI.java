@@ -218,7 +218,6 @@ public class GUI extends JFrame
 		_log.setPreferredSize(new Dimension(150, 16));
 		_log.setMinimumSize(new Dimension(100, 16));
 		_log.setFont(new Font("Meiryo UI", Font.PLAIN, 12));
-		_log.setEditable(false);
 		_log.setText("Log");
 		
 		GridBagConstraints gbc_txtrLog = new GridBagConstraints();
@@ -289,7 +288,13 @@ public class GUI extends JFrame
 	
 	public void AppendLog(String str)
 	{
-		_log.append(str + "\n");
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		_log.setText(str + "\n");
 	}
 	
 	public void PaintTerritory(int territoryId, Color color)
