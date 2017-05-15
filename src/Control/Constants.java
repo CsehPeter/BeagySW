@@ -23,4 +23,11 @@ public final class Constants
 	
 	//Init
 	public static final int STARTING_UNITS = 10;
+	
+	//Players
+	public static final int SERVER_PLAYER_ID = 0;
+	public static final Color SERVER_PLAYER_COLOR = Color.blue;
+	
+	public static final int CLIENT_PLAYER_ID = 1;
+	public static final Color CLIENT_PLAYER_COLOR = Color.red;
 }

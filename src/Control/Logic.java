@@ -7,9 +7,11 @@ import Gui.Colors;
 import Gui.Map;
 import Gui.Territory;
 
+//This class handles all the player interactions, the gmae flow is implemented here in it's own thread
 public class Logic implements ICommand, Runnable
 {
-	private int _id = 0;
+	//Id of the Server player
+	private int _id = Constants.SERVER_PLAYER_ID;
 	
 	private ArrayList<Player> _players = new ArrayList<Player>();
 	private ArrayList<IGameState> _games = new ArrayList<IGameState>();

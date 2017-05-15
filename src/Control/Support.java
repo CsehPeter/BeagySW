@@ -6,10 +6,16 @@ import java.util.Random;
 import Gui.Map;
 import Gui.Territory;
 
+//Support functions to help the game flow using the rules of Risk
 public final class Support
 {
-	///\brief Calculates the number of deploy units
-	//TODO: extra units for the owned continents
+	/**
+	 * @param playerId ID of the player whose units should be calculated
+	 * @param map The world map
+	 * @return Number of units that can be deployed by the player based on the player's owned territories
+	 * @throws NullPointerException
+	 * @see Gui.Map
+	 **/
 	public static int DeployUnits(int playerId, Map map) throws NullPointerException
 	{
 		if(map == null) throw new NullPointerException("Map is null");
@@ -23,7 +29,13 @@ public final class Support
 		return units / Constants.TERRITORY_PER_UNIT + Constants.DEFAULT_DEPLOY_UNITS;
 	}
 	
-	///\brief Returns true if the two territories are near each other
+	/**
+	 * @param a One of the two territories where territory 'b' should be a neighbour
+	 * @param b One of the two territories where territory 'a' should be a neighbour
+	 * @return True if the two territories are neighbours, otherwise false
+	 * @throws NullPointerException
+	 * @see Gui.Territory
+	 */
 	public static Boolean AreNeighbours(Territory a, Territory b) throws NullPointerException
 	{
 		if(a == null) throw new NullPointerException("Territory 'a' is null");
@@ -39,7 +51,15 @@ public final class Support
 		return false;
 	}
 			
-	///\brief Returns true if the attack can be executed
+	/**
+	 * @param playerId ID of the attacking player
+	 * @param a Base territory of the attacking player
+	 * @param b Aim territory of the defending player
+	 * @param attackUnits Number of units which are attacking
+	 * @return True if the attack can be executed according to the rules of Risk, otherwise false
+	 * @throws NullPointerException
+	 * @see Gui.Territory
+	 */
 	public static Boolean CanAttack(int playerId, Territory a, Territory b, int attackUnits) throws NullPointerException
 	{
 		if(a == null) throw new NullPointerException("Territory 'a' is null");
@@ -65,7 +85,15 @@ public final class Support
 		return false;
 	}
 		
-	///\brief 'a' attacks 'b'
+	/**
+	 * @param playerId ID of the attacking player
+	 * @param a Base territory of the attacking player, this method is modifying this territory
+	 * @param b Aim territory of the defending player, this method is modifying this territory
+	 * @param attackUnits Number of units which are attacking
+	 * @return True if the attacker conquered territory 'b'
+	 * @throws NullPointerException
+	 * @see Gui.Territory
+	 */
 	public static Boolean Attack(int playerId, Territory a, Territory b, int attackUnits)
 	{
 		CanAttack(playerId, a, b, attackUnits);
@@ -114,10 +142,12 @@ public final class Support
 			return false;
 		}
 	}
-	
-	//private static Boolean CanAttack()
-		
-	///\brief Returns the biggest number from a dice roll
+
+	/**
+	 * @param dice Number of dice in a single roll
+	 * @return The biggest number from a dice roll(random generated values)
+	 * @throws IllegalArgumentException
+	 */
 	private static int Roll(int dice) throws IllegalArgumentException
 	{
 		if(dice < Constants.DICE_MIN_NUMBER && dice > Constants.DICE_MAX_NUMBER) 
@@ -136,8 +166,13 @@ public final class Support
 		
 		return ret;
 	}
-		
-	///\brief Returns true if the given territory is owned by the player, otherwise false
+
+	/**
+	 * @param playerId ID of the player
+	 * @param t Territory to check if it's owned by the player with the given ID
+	 * @return true if the given territory is owned by the player, otherwise false
+	 * @see Gui.Territory
+	 */
 	public static Boolean IsFriendlyTerritory(int playerId, Territory t)
 	{
 		if(t == null) throw new NullPointerException("Territory is null");
@@ -147,11 +182,17 @@ public final class Support
 		return false;
 	}
 	
-	//TODO Transfer method
-	
-	///\brief 	Return true if there is a territory connection line between the two friendly territories
-	///\details	Backtrack algorithm to search a line
-	///TODO Check for the remaining 1 unit on the base territory
+	/**
+	 * @param playerId Id of the player whose units should be transferred
+	 * @param map World map
+	 * @param current Base territory which should be the start point of the transfer
+	 * @param goal Goal territory of the transfer
+	 * @return True if the units on the current territory can reach the goal territory in a friendly line
+	 * @throws NullPointerException
+	 * @see Gui.Map
+	 * @see Gui.Territory
+	 * Uses recursive backtrack algorithm
+	 */
 	public static Boolean CanTransfer(int playerId, Map map, Territory current, Territory goal) throws NullPointerException
 	{
 		if(map == null) throw new NullPointerException("Map is null");
@@ -163,6 +204,11 @@ public final class Support
 		used.add(current.getId());
 		return CanTransfer(playerId, map, current, goal, used);
 	}
+	
+	/**
+	 * @see The public Control.Support.CanTransfer method
+	 * @param used An ArrayList with the used territory IDs for the backtrack algorithm
+	 */
 	private static Boolean CanTransfer(int playerId, Map map, Territory current, Territory goal, ArrayList<Integer> used)
 	{
 		//reached our goal
@@ -181,6 +227,16 @@ public final class Support
 		return false;
 	}
 
+	/**
+	 * @param playerId ID of the player whose units should be transferred
+	 * @param map World map
+	 * @param current Base territory which should be the start point of the transfer
+	 * @param goal Goal territory of the transfer
+	 * @return True if the transfer is completed, otherwise false
+	 * @see Gui.Map
+	 * @see Gui.Territory
+	 * @see Control.Support.CanTransfer
+	 */
 	public static Boolean Transfer(int playerId, Map map, Territory current, Territory goal, int units)
 	{
 		if(CanTransfer(playerId, map, current, goal) == false) return false;
