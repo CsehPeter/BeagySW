@@ -3,7 +3,7 @@ package Control;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Gui.Colors;
+import Gui.Colours;
 import Gui.Map;
 import Gui.Territory;
 
@@ -18,9 +18,14 @@ public class Logic implements ICommand, Runnable
 	private Map _map;
 	private GameState _gs;
 	
+	/**
+	 * @param game Should be the server's game
+	 * @param map Should be the server's map
+	 * @throws NullPointerException
+	 */
 	public Logic(IGameState game, Map map) throws NullPointerException
 	{
-		Player player = new Player(_id, Colors.NextColor());
+		Player player = new Player(_id, Colours.NextColor());
 		_players.add(player);
 		
 		if(map == null) throw new NullPointerException("map is null");
@@ -35,6 +40,7 @@ public class Logic implements ICommand, Runnable
 		th.start();
 	}
 	
+	//Randomise the owners of the territories, set the starting units on each territory
 	public void InitMap()
 	{		
 		System.out.println("Randomize map");
@@ -52,7 +58,7 @@ public class Logic implements ICommand, Runnable
 		
 		ChangeGs(_map);
 		
-//		//TODO show this?
+//		//TODO show the generated owners?
 //		for(Territory t : _map.Territories)
 //		{
 //			System.out.println("ID: " + t.getId() + "  Name: " + t.getName() + "  Continent: " + t.getContinent() + "  Owner: " + t.Owner.getId() + "  Units: " + t.Units);
@@ -61,6 +67,10 @@ public class Logic implements ICommand, Runnable
 		_gs.IsChanged = true;
 	}
 	
+	/**
+	 * @param game Adds this game to the list of games
+	 * @throws NullPointerException
+	 */
 	public void AddGame(IGameState game) throws NullPointerException
 	{
 		if(game == null) throw new NullPointerException("game is null");
@@ -71,6 +81,11 @@ public class Logic implements ICommand, Runnable
 		}
 	}
 	
+	/**
+	 * @param cmd The received command from the player
+	 * @see Control.Command
+	 * Handles the received command from player interaction
+	 */
 	@Override
 	public void OnCommand(Command cmd)
 	{
@@ -82,7 +97,7 @@ public class Logic implements ICommand, Runnable
 		{
 			case ClientConnected:
 				//_games.add(e)
-				_players.add(new Player(_players.size(), Colors.NextColor()));
+				_players.add(new Player(_players.size(), Colours.NextColor()));
 				InitMap();
 				break;
 			case Exit:
@@ -122,16 +137,14 @@ public class Logic implements ICommand, Runnable
 		}
 	}
 	
+	/**
+	 * @param map Add the changed territories of this parameter
+	 * @see Gui.Map
+	 */
 	private void ChangeGs(Map map)
 	{
-		//TODO GameState should only contain the changed territories
 		synchronized(_gs)
 		{
-//			if(_gs == null)
-//			{
-//				_gs = new GameState(Phases.Deploy, new ArrayList<Territory>(), _players.get(_id));
-//				_gs.ChangedTerritories = map.Territories;
-//			}
 			_gs.ChangedTerritories.clear();
 			for(Territory t : map.Territories)
 			{
@@ -145,6 +158,7 @@ public class Logic implements ICommand, Runnable
 		}
 	}
 	
+	//Changes the game state to the next phase or moves to the next players turn
 	private void NextState()
 	{
 		switch(_gs.Phase)
@@ -179,6 +193,10 @@ public class Logic implements ICommand, Runnable
 		}
 	}
 
+	/**
+	 * @param cmd Deploy a unit to the specified territory in the command 
+	 * @see Control.Command
+	 */
 	private void Deploy(Command cmd)
 	{
 		if(Support.IsFriendlyTerritory(cmd.Player.getId(), _map.getTerritory(cmd.ToId)))
@@ -191,6 +209,10 @@ public class Logic implements ICommand, Runnable
 		}
 	}
 	
+	/**
+	 * @param cmd Attack based on the properties of the command
+	 * @see Control.Command
+	 */
 	private void Attack(Command cmd)
 	{
 		//int baseUnits = _map.getTerritory(cmd.FromId).Units;
@@ -204,6 +226,10 @@ public class Logic implements ICommand, Runnable
 			System.out.println("Attack failed");
 	}
 	
+	/**
+	 * @param cmd Transfer based on the properties of the command
+	 * @see Control.Command
+	 */
 	private void Transfer(Command cmd)
 	{
 		if(Support.CanTransfer(cmd.Player.getId(), _map, _map.getTerritory(cmd.FromId), _map.getTerritory(cmd.ToId)))
@@ -216,6 +242,7 @@ public class Logic implements ICommand, Runnable
 			System.out.println("Transfer failed");
 	}	
 	
+	//Sends the changed game state to the players
 	@Override
 	public void run()
 	{
@@ -246,7 +273,6 @@ public class Logic implements ICommand, Runnable
 			}
 			catch (InterruptedException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

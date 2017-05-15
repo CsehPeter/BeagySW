@@ -13,6 +13,7 @@ import Control.GameState;
 import Control.ICommand;
 import Control.IGameState;
 
+//Server on the network
 public class SerialServer extends Network implements IGameState
 {
 	private ServerSocket serverSocket = null;
@@ -22,22 +23,32 @@ public class SerialServer extends Network implements IGameState
 	
 	private ICommand _cmdIf;
 	
+	/**
+	 * @param cmdIf ICommand on which the OnCOmmand method will be called 
+	 * @throws NullPointerException
+	 */
 	public SerialServer(ICommand cmdIf) throws NullPointerException
 	{
 		if(cmdIf == null) throw new NullPointerException("cmdIf is null");
 		_cmdIf = cmdIf;
 	}
 	
+	/**
+	 * @param gs Send this GameState to the client
+	 * @see Control.GameState
+	 */
 	@Override
 	public void OnGameState(GameState gs) throws NullPointerException
 	{
 		if(gs == null) throw new NullPointerException("gs is null");
 		
-		System.out.println("Server changedTerritories size: " + gs.ChangedTerritories.size());
+		//TODO remove debug print
+		//System.out.println("Server changedTerritories size: " + gs.ChangedTerritories.size());
 		
 		send(gs);
 	}
 
+	//Thread which reads the messages
 	private class ReceiverThread implements Runnable
 	{
 
@@ -95,6 +106,9 @@ public class SerialServer extends Network implements IGameState
 		}
 	}
 
+	/**
+	 * @param not used
+	 */
 	@Override
 	public void connect(String ip)
 	{
@@ -112,6 +126,9 @@ public class SerialServer extends Network implements IGameState
 		}
 	}
 
+	/**
+	 * @param msg Message which should be sent
+	 */
 	@Override
 	public void send(NetMsg msg)
 	{
@@ -129,6 +146,7 @@ public class SerialServer extends Network implements IGameState
 		}
 	}
 
+	//Disconnects the server
 	@Override
 	public void disconnect()
 	{
@@ -144,6 +162,4 @@ public class SerialServer extends Network implements IGameState
 			Logger.getLogger(SerialServer.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-
-	
 }

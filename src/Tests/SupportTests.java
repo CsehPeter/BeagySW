@@ -18,6 +18,7 @@ public final class SupportTests
 		T_CanTransfer();
 	}
 	
+	//Simulates a battle
 	public static void T_Battle()
 	{
 		System.out.println("---Running battle simulation---");
@@ -39,16 +40,6 @@ public final class SupportTests
 		t2.Owner = player2;
 		t2.Units = rnd.nextInt(50);
 		
-//		int round = 0;
-//		while(Support.CanAttack(player1.getId(), t1, t2, t1.Units - 1))
-//		{
-//			System.out.println("Round:" + round++ + "   " + t1.Units + " vs " + t2.Units);
-//			Support.Attack(player1.getId(), t1, t2, t1.Units - 1);
-//		}
-//		System.out.println("Round:" + round++ + "   " + t1.Units + " vs " + t2.Units);
-//		if(t1.Units > t2.Units) System.out.println("Attackers won");
-//		else System.out.println("Defenders won");
-		
 		System.out.println("Before battle:");
 		System.out.println("Attacker -- ID: " + t1.getId() + "  Owner: " + t1.Owner.getId() + "  Units: " + t1.Units);
 		System.out.println("Defender -- ID: " + t2.getId() + "  Owner: " + t2.Owner.getId() + "  Units: " + t2.Units);
@@ -65,6 +56,7 @@ public final class SupportTests
 		System.out.println("Defender -- ID: " + t2.getId() + "  Owner: " + t2.Owner.getId() + "  Units: " + t2.Units);
 	}
 	
+	//Simulates a transfer
 	public static void T_CanTransfer()
 	{
 		System.out.println("---Running cantransfer test---");

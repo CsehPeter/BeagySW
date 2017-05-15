@@ -1,6 +1,6 @@
 package Control;
 
-//
+//Continents of the world
 public enum Continents
 {
 	Asia,

@@ -13,6 +13,8 @@ import Control.GameState;
 import Control.ICommand;
 import Control.IGameState;
 
+
+//Client in the network
 public class SerialClient extends Network implements ICommand
 {
 	private Socket socket = null;
@@ -21,19 +23,28 @@ public class SerialClient extends Network implements ICommand
 	
 	private IGameState _game;
 	
+	/**
+	 * @param game Game on which this object can call the OnGameState method
+	 */
 	public SerialClient(IGameState game)
 	{
 		if(game == null) throw new NullPointerException("game is null");
 		_game = game;
 	}
 	
+	/**
+	 * @param cmd Command which should be send to the server
+	 * @see Control.Command
+	 */
 	@Override
 	public void OnCommand(Command cmd)
 	{
 		send(cmd);
 	}
 
-	private class ReceiverThread implements Runnable {
+	//Thread which read the messages
+	private class ReceiverThread implements Runnable
+	{
 
 		public void run()
 		{
@@ -46,7 +57,8 @@ public class SerialClient extends Network implements ICommand
 					
 					if(msg instanceof GameState)
 					{
-						System.out.println("Client changedTerritories size: " + ((GameState)msg).ChangedTerritories.size());
+						//TODO remove debug print
+						//System.out.println("Client changedTerritories size: " + ((GameState)msg).ChangedTerritories.size());
 						
 						_game.OnGameState((GameState)msg);
 					}
@@ -65,6 +77,9 @@ public class SerialClient extends Network implements ICommand
 		}
 	}
 
+	/**
+	 * @param Client connect to this ip address
+	 */
 	@Override
 	public void connect(String ip)
 	{
@@ -91,6 +106,9 @@ public class SerialClient extends Network implements ICommand
 		}
 	}
 
+	/**
+	 * @param msg Message which should be sent
+	 */
 	@Override
 	public void send(NetMsg msg) throws NullPointerException
 	{
@@ -111,6 +129,7 @@ public class SerialClient extends Network implements ICommand
 		}
 	}
 
+	//Disconnects the client from the server
 	@Override
 	public void disconnect()
 	{

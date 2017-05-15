@@ -16,6 +16,7 @@ import Control.Support;
 import Network.SerialClient;
 import Network.SerialServer;
 
+//Middle layer between the graphical and the logic part
 public class Controller implements IGameState
 {
 	private ICommand ctrl;
@@ -29,12 +30,23 @@ public class Controller implements IGameState
 	private int[] _active = {-1, -1};
 	private int _idx = 0;
 	
+	/**
+	 * @return ID of the player in the Controller object
+	 * @throws NullPointerException
+	 */
 	public int GetPlayerId() throws NullPointerException
 	{
 		if(_player == null) throw new NullPointerException("Player is null");
 		return _player.getId();
 	}
 	
+	/**
+	 * @param gui Reference to the GUI which instantiate this class
+	 * @param map Reference to the map of the GUI
+	 * @throws NullPointerException
+	 * @see Gui.GUI
+	 * @see Gui.Map
+	 */
 	Controller(GUI gui, Map map) throws NullPointerException
 	{
 		if(gui == null) throw new NullPointerException("gui is null");
@@ -44,6 +56,7 @@ public class Controller implements IGameState
 		_map = map;
 	}
 	
+	//Starts a Server on local host
 	public void StartServer()
 	{
 		ctrl = new Logic(this, _map);
@@ -55,6 +68,8 @@ public class Controller implements IGameState
 		
 		_player = new Player(0, Color.blue);
 	}
+	
+	//Start a Client and connects to the server
 	public void StartClient()
 	{
 		ctrl = new SerialClient(this);
@@ -64,11 +79,14 @@ public class Controller implements IGameState
 		
 		ctrl.OnCommand(new Command(CmdType.ClientConnected, _player));
 	}
+	
+	//Called from the Exit button
 	public void Exit()
 	{
 		ctrl.OnCommand(new Command(CmdType.Exit, _player));
 	}
 
+	//Called from the OK button
 	public void BtnOk()
 	{
 		if(_gs.Player.getId() == _player.getId() && (_gs.Phase == Phases.Attack || _gs.Phase == Phases.Transfer))
@@ -85,6 +103,7 @@ public class Controller implements IGameState
 		
 	}
 	
+	//Called from the Next button
 	public void BtnNext()
 	{
 		ctrl.OnCommand(new Command(CmdType.Next, _player));
@@ -96,6 +115,9 @@ public class Controller implements IGameState
 		_active[1] = -1;
 	}
 	
+	/**
+	 * @param territoryId ID of the territory which the player clicked on
+	 */
 	public void ClickOnMap(int territoryId)
 	{
 		if(_gs.Player.getId() == _player.getId())
@@ -130,6 +152,11 @@ public class Controller implements IGameState
 		}
 	}
 	
+	/**
+	 * @param territoryId ID of the territory which should be activated
+	 * @param idx Determines which active territory, from the array of the two active territories
+	 * @param color Paint colour of the active territory
+	 */
 	private void ActivateTerritory(int territoryId, int idx, Color color)
 	{
 		if(territoryId < 1 || territoryId > Constants.NUMBER_OF_TERRITORIES) return;
@@ -158,11 +185,14 @@ public class Controller implements IGameState
 		}
 	}
 	
+	//Called from T1 button
 	public void Test1()
 	{
 		_gui.ClearLog();
 		//SupportTests.RunAll();
 	}
+	
+	//Called from T2 button
 	public void Test2()
 	{
 		//System.out.println("Running Test2");
@@ -173,6 +203,10 @@ public class Controller implements IGameState
 		//Tests.SupportTests.T_Battle();
 	}
 
+	/**
+	 * @param gs The changed game state
+	 * @see Control.GameState
+	 */
 	@Override
 	public void OnGameState(GameState gs)
 	{		

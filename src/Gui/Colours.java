@@ -3,13 +3,13 @@ package Gui;
 import java.awt.Color;
 import java.util.ArrayList;
 
-//Final class to generate soem colors
-public final class Colors
+//Final class to generate some colours
+public final class Colours
 {
 	private static ArrayList<Color> _colors;
 	private static int num = 0;
 	
-	//Initialize the ArrayList with some default colors
+	//Initialise the ArrayList with some default colours
 	private static void Init()
 	{
 		_colors.add(Color.blue);
@@ -25,7 +25,7 @@ public final class Colors
 		_colors.add(Color.white);
 	}
 	
-	///\brief Gets a color from the list
+	// Gets the next colour from the list
 	public static Color NextColor()
 	{
 		if(_colors == null)
