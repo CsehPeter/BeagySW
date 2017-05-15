@@ -209,7 +209,9 @@ public class Controller implements IGameState
 //				else logMessage = "attack";
 				break;
 			case Transfer:
-				logMessage = "transfer";
+				logMessage = "P"+gs.Player.getId()+
+				" transfered \nfrom: "+gs.ChangedTerritories.get(0).getName()+
+				"\nto: "+ gs.ChangedTerritories.get(1).getName();
 				break;
 			default:
 				logMessage = "default";

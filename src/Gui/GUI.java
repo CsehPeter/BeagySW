@@ -294,7 +294,7 @@ public class GUI extends JFrame
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		_log.append(str + "\n");
+		_log.setText(str + "\n" + _log.getText());
 	}
 	
 	public void PaintTerritory(int territoryId, Color color)
