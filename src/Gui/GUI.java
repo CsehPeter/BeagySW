@@ -5,7 +5,6 @@ import static java.awt.Color.BLACK;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -32,6 +31,10 @@ import javax.swing.border.EmptyBorder;
 
 import Control.Phases;
 
+/**
+ * Class for drawing GUI elements 
+ * and sends commands to the game Logic based on the user's actions
+ */
 public class GUI extends JFrame
 {
 	private static final long serialVersionUID = -8342265159647402288L;
@@ -46,7 +49,7 @@ public class GUI extends JFrame
 	
 	private Controller ctrl;
 	
-	
+
 	public GUI()
 	{
 		super("RISK"); //name of the main window
@@ -61,10 +64,11 @@ public class GUI extends JFrame
 		
 		ctrl = new Controller(this, _map);
 		
+		// Initialize GUI elements
 		InitMenuBar();
 		InitContentPanel();
 		
-			setContentPane(_contentPanel);
+		setContentPane(_contentPanel);
 			
 		InitStatusBar();
 		InitTestButtons();
@@ -75,6 +79,7 @@ public class GUI extends JFrame
 		setVisible(true);
 	}
 	
+	//Initialize menu bar
 	private void InitMenuBar()
 	{
 		//MenuBar
@@ -89,7 +94,10 @@ public class GUI extends JFrame
 		JMenuItem mntmClient = new JMenuItem("Client");
 		mnConnect.add(mntmClient);
 		mntmClient.addActionListener(new ActionListener()
-		{
+		{	
+			/**
+			 * Send command to start client
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -101,7 +109,10 @@ public class GUI extends JFrame
 		JMenuItem mntmServer = new JMenuItem("Server");
 		mnConnect.add(mntmServer);
 		mntmServer.addActionListener(new ActionListener()
-		{
+		{	
+			/**
+			 * Send command to start server
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -113,7 +124,10 @@ public class GUI extends JFrame
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		menuBar.add(mntmExit);
 		mntmExit.addActionListener(new ActionListener()
-		{
+		{	
+			/**
+			 * Send exit command to server and close the program
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -122,7 +136,8 @@ public class GUI extends JFrame
 			}
 		});
 	}
-
+	
+	//Initialize Content panel. GUI elements are drawn on this panel
 	private void InitContentPanel()
 	{
 		_contentPanel = new JPanel();
@@ -138,6 +153,7 @@ public class GUI extends JFrame
 		_contentPanel.setLayout(gbl_contentPane);
 	}
 	
+	//Initialize status bar
 	private void InitStatusBar()
 	{
 		//Status bar
@@ -174,6 +190,7 @@ public class GUI extends JFrame
 		_textField.setColumns(3);
 	}
 	
+	//Initialize test buttons
 	private void InitTestButtons()
 	{
 		//TEST BUTTON 1//
@@ -211,6 +228,7 @@ public class GUI extends JFrame
 		_contentPanel.add(btnT_1, gbc_btnT_1);
 	}
 	
+	//Initialize text field
 	private void InitTextArea()
 	{
 		//Text Area
@@ -230,6 +248,7 @@ public class GUI extends JFrame
 		_contentPanel.add(_log, gbc_txtrLog);
 	}
 	
+	//Initialize Next button
 	private void InitNextButton()
 	{
 		//Next button
@@ -249,6 +268,7 @@ public class GUI extends JFrame
 		_contentPanel.add(btnNewButton, gbc_btnNewButton);
 	}
 	
+	//Initialize Map panel
 	private void InitMapPanel()
 	{
 		//Map
@@ -263,7 +283,10 @@ public class GUI extends JFrame
 		
 		//Click on map
 		_mapPanel.addMouseListener(new MouseAdapter()
-		{
+		{	
+			/**
+			 * Send a command with the ID of the clicked territory
+			 */
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
@@ -280,33 +303,51 @@ public class GUI extends JFrame
 		});
 	}
 
-	
+	/**
+	 * Clear log text
+	 */
 	public void ClearLog()
 	{
 		_log.setText("");
 	}
 	
+	/**
+	 * Write a new message to the Log panel. Newest message is first
+	 * @param str	String containing new log message
+	 */
 	public void AppendLog(String str)
 	{
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		_log.setText(str + "\n" + _log.getText());
 	}
 	
+	/**
+	 * Repaint a single Territory with a new color
+	 * @param territoryId ID of the territory
+	 * @param color	new Color
+	 */
 	public void PaintTerritory(int territoryId, Color color)
 	{
 		_mapPanel.RePaintTerritory(territoryId, color);
 	}
 	
+	/**
+	 * Update information displayed on the status bar
+	 * @param playerId 	ID of the player whose turn is in progress
+	 * @param phase	Current phase of the game
+	 */
 	public void UpdateStatus(int playerId, Phases phase)
 	{
 		_status.setText("Player: " + ctrl.GetPlayerId() + "         Current Player: " + playerId + "  Phase: " + phase);
 	}
 
+	/** 
+	 *	This class draws the map
+	 */
 	private class MapPanel extends JPanel
 	{
 
@@ -330,11 +371,13 @@ public class GUI extends JFrame
 			}
 			
 		}
-
+		
+		/**
+		 * Repaint the whole map
+		 */
 		@Override
 		public void repaint()
 		{
-			//super.repaint();
 			Graphics2D g2d = (Graphics2D)super.getGraphics();
 			
 			for(Territory t : _map.Territories)
@@ -349,6 +392,11 @@ public class GUI extends JFrame
 			
 		}
 		
+		/**
+		 * Repaint a single Territory with a new color
+		 * @param territoryId ID of the territory
+		 * @param color	new Color
+		 */
 		//TODO check this function!!!
 		public void RePaintTerritory(int territoryId, Color color)
 		{

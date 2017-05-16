@@ -7,7 +7,7 @@ import Gui.Colours;
 import Gui.Map;
 import Gui.Territory;
 
-//This class handles all the player interactions, the gmae flow is implemented here in it's own thread
+//This class handles all the player interactions, the game flow is implemented here in it's own thread
 public class Logic implements ICommand, Runnable
 {
 	//Id of the Server player

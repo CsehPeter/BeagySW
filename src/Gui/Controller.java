@@ -1,7 +1,6 @@
 package Gui;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import Control.CmdType;
 import Control.Command;
@@ -161,9 +160,6 @@ public class Controller implements IGameState
 	{
 		if(territoryId < 1 || territoryId > Constants.NUMBER_OF_TERRITORIES) return;
 		
-		//TODO remove debug print
-		//System.out.println("Act0: " + _active[0] + "  Act1: " + _active[1] + "  Terr: " + territoryId);
-		
 		if(_active[idx] == territoryId)
 		{
 			_active[idx] = -1;
@@ -195,9 +191,6 @@ public class Controller implements IGameState
 	//Called from T2 button
 	public void Test2()
 	{
-		//System.out.println("Running Test2");
-		//ctrl.OnCommand(new Command(Clicks.Ok, _player.getId(), 30, 1, 2));
-		
 		_gui.AppendLog("blablablablabla");
 		
 		//Tests.SupportTests.T_Battle();
@@ -215,18 +208,13 @@ public class Controller implements IGameState
 		
 		for(Territory t : gs.ChangedTerritories )
 		{
-			
-			//System.out.println(t.getId() + "  " + t.Units);
-			
-			_map.getTerritory(t.getId()).Owner = t.Owner; //new Player(t.Owner.getId(), t.Owner.getColor());
+			_map.getTerritory(t.getId()).Owner = t.Owner; 
 			_map.getTerritory(t.getId()).Units = t.Units;
 			
 			_gui.PaintTerritory(t.getId(), t.Owner.getColor());
 		}
 
 		_gui.UpdateStatus(gs.Player.getId(), gs.Phase);
-		
-//		_gui.AppendLog(gs.Phase.toString());
 		
 		String logMessage = "";
 
@@ -251,6 +239,6 @@ public class Controller implements IGameState
 			default:
 				break;
 		}
-		_gui.AppendLog(logMessage); // ez elrontja a terkepet
+		_gui.AppendLog(logMessage);
 	}
 }

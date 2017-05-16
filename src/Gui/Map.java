@@ -15,7 +15,7 @@ import Control.Constants;
 import Control.Continents;
 
 /**
- * This class has been automatically generated using
+ * This class has been automatically generated using Flamingo SVG Transcoder
  * <a href="http://ebourg.github.io/flamingo-svg-transcoder/">Flamingo SVG transcoder</a>.
  */
 public class Map
@@ -28,6 +28,12 @@ public class Map
      * @param g Graphics context.
      */
 	
+	/**
+	 * 
+	 * @param id ID of a Territory
+	 * @return Territory with the given ID
+	 * @throws IllegalArgumentException Thrown when the given ID is invalid
+	 */
 	public Territory getTerritory(int id) throws IllegalArgumentException
 	{
 		if(id < 1 && id > Constants.NUMBER_OF_TERRITORIES) throw new IllegalArgumentException("Territory's Id must be between 1 and " + Constants.NUMBER_OF_TERRITORIES);
@@ -38,8 +44,14 @@ public class Map
 		return null;
 	}
 	
+	// List containing all territories
     public ArrayList<Territory> Territories = new ArrayList<Territory>();
-
+    
+    /**
+     * This function initializes the territories and adds them to a list
+     * shape data was generated automatically from an SVG image 
+     * @param g Graphics context
+     */
 	public void create(Graphics2D g)
 	{
         Shape shape = null;

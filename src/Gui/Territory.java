@@ -9,6 +9,9 @@ import Control.Constants;
 import Control.Continents;
 import Control.Player;
 
+/**
+ * Class for creating and managing territories 
+ */
 public class Territory implements Serializable
 {
 	private int _id;
@@ -22,6 +25,17 @@ public class Territory implements Serializable
 	public Player Owner;
 	public Boolean IsChanged;
 	
+	/**
+	 * 
+	 * @param id Territory ID
+	 * @param name name of the territory 
+	 * @param continent continent 
+	 * @param neighbours List containing the IDs of neighboring territories
+	 * @param sh Shape object generated from SVG image
+	 * @param pos coordinates of unit number displayed on the territory
+	 * @throws NullPointerException Thrown when position or shape is null
+	 * @throws IllegalArgumentException Thrown when id, name or neighbours parameter is invalid
+	 */
 	public Territory(int id, String name, Continents continent, ArrayList<Integer> neighbours, Shape sh, Point pos) throws NullPointerException, IllegalArgumentException
 	{
 		if(id < 1 && id > Constants.NUMBER_OF_TERRITORIES) throw new IllegalArgumentException("Territory's Id must be between 1 and " + Constants.NUMBER_OF_TERRITORIES);
